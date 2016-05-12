@@ -16,8 +16,7 @@ Including another URLconf
 
 from django.conf.urls import url, patterns, include
 from django.contrib import admin
-# from myapp.views import  login, logout, new, map, home
-from myapp.views import  login, logout, new, home
+from seller.views import  login, logout, new, home
 #from views import logout_page
 import settings
 
@@ -29,7 +28,7 @@ urlpatterns = [
 	url(r'^$', home), # home site
 	url(r'^logout/$', logout),
 	url(r'^accounts/', include('allauth.urls')),
-	url(r'', include('myapp.urls')),
+	url(r'', include('seller.urls')),
 
 ] 
 

@@ -4,7 +4,7 @@ import views
 
 
 urlpatterns = patterns(
-	'myapp.views',
+	'seller.views',
 	url(r'^login', 'login'),
     url(r'^new', 'new'),
 	url(r'^list', 'all'),

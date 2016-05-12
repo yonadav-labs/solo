@@ -16,8 +16,12 @@ from django.contrib.gis import geos
 from django.contrib.gis import measure
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from geopy.geocoders.google import Google
-from geopy.geocoders.google import GQueryError
+from geopy.geocoders import GoogleV3
+from geopy.exc import GeocoderQueryError
+
+# forms
+from .forms import AddressForm
+
 
 #########################################
 # log in logout							#
@@ -136,12 +140,11 @@ def charge(request):
 
 
 ### map ####
-#def map(request):
-#	return render(request, 'map3.html')
+
 	
 def geocode_address(address):
     address = address.encode('utf-8')
-    geocoder = Google()
+    geocoder = GoogleV3()
     try:
         _, latlon = geocoder.geocode(address)
     except (URLError, GQueryError, ValueError):
@@ -151,16 +154,16 @@ def geocode_address(address):
 
 def get_sellers(longitude, latitude):
     current_point = geos.fromstr("POINT(%s %s)" % (longitude, latitude))
-    distance_from_point = {'miles': 10}
-    sellers = models.seller.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
+    distance_from_point = {'mi': 10}
+    sellers = Seller.gis.filter(location__distance_lte=(current_point, measure.D(**distance_from_point)))
     sellers = sellers.distance(current_point).order_by('distance')
     return sellers.distance(current_point)
 
 def home(request):
-    form = forms.AddressForm()
+    form = AddressForm()
     sellers = []
     if request.POST:
-        form = forms.AddressForm(request.POST)
+        form = AddressForm(request.POST)
         if form.is_valid():
             address = form.cleaned_data['address']
             location = geocode_address(address)
@@ -169,6 +172,6 @@ def home(request):
                 sellers = get_sellers(longitude, latitude)
 
     return render_to_response(
-        'buyer.html',
+        'buyer.html', 
         {'form': form, 'sellers': sellers},
-        context_instance=RequestContext(request))
+        context_instance=RequestContext(request)) 

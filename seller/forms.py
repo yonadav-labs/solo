@@ -18,6 +18,12 @@ class ListingForm(forms.ModelForm):
 		model = Listing
 		fields = ['fulfillment_partner', 'address', 'phone_number', 'active']		
 
+
+class AddressForm(forms.Form):
+	address = forms.CharField(max_length=100)
+	lat = forms.DecimalField(required = False) # we want this to be populated from the browser, maybe use HTML5 location, or post from Leafletjs
+	lng = forms.DecimalField(required = False)  # we want this to be populated from the browser, maybe use HTML5 location or post from Leafletjs
+
 		
 
 #################################################################################

@@ -117,9 +117,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         # 'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'solo',
-		'USER': 'solo',
-		'PASSWORD': 'solo@master', 
+        'NAME': 'Letter2',
+		'USER': 'postgres',
+		'PASSWORD': 'pbn6h9E', 
         'HOST': '127.0.0.1', # 127.0.0.1 for local host
         'PORT': 5432,
     }
@@ -231,6 +231,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 # request email address from third part account provider
 SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
 
+
+### google api key
+GOOGLE_API_KEY = 'AIzaSyARs6CfrMGGhgZk4wjojfE5Gi0AiZzBOQ4' ## GoogleMaps location search api key. I hard coded this into the buyer.html. not sure how to pass it as an environment variable. 
 
 
 

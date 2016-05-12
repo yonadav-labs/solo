@@ -20,6 +20,8 @@
 	
 	<!-- leaflet javascript -->
 
+
+	
 </head>
 
 {% block content %}
@@ -70,7 +72,6 @@
 							var radius = e.accuracy / 2;
 							
 							L.circle(e.latlng, radius).addTo(map);
-							
 						}
 
 						function onLocationError(e) {
@@ -107,8 +108,17 @@
 							<p> <a href="{% static '/checkout' %}" class="btn btn-default">Checkout</a></p>
 						
 						</div>
-					</div>						
-											
+					</div>		
+				<div>
+				
+				<!-- list all delivery partners address -->
+
+				<div class="container-fluid">
+					<div id="results"></div>
+				</div>	
+					
+		<!-- additional javascript -->
+	<script src="{% static 'app.js' %}"></script>									
 						<!-- perform distance query using GeoDjango and return list of fulfillment partners who service within the distance radius they've identified and time for taking orders is also valid based on timestamp -->
 						
 						<!-- then allow user to select fulfillment partner -->

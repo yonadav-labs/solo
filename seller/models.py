@@ -32,8 +32,8 @@ from urllib2 import URLError
 
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis import geos
-from geopy.geocoders.google import Google
-from geopy.geocoders.google import GQueryError
+from geopy.geocoders import GoogleV3
+from geopy.exc import GeocoderQueryError
 #########################################################
 # created choices but not using them in views yet.		#
 # may not need to do it this way. This represents 		#
@@ -106,7 +106,6 @@ TEMP_INACTIVE_CHOICES = (
 # GeoDjango source: http://stackoverflow.com/questions/11421230/django-how-do-i-store-a-geo-point-in-database
 class Listing(models.Model):
 	fulfillment_partner = models.OneToOneField(User, unique=True) # user id from stripe account
-	#contact_name = models.CharField(max_length=100) # name of human associated with fulfillment partner
 	address = models.CharField(max_length=100) # address of business
 	active = models.CharField(max_length=20, choices=ACTIVE_CHOICES, default='Not Active') 
 	#temp_active = models.CharField(max_length=20, choices=TEMP_INACTIVE_CHOICES, default='Active') 
@@ -145,27 +144,12 @@ class Sale(models.Model):
         self.stripe = stripe
  
     # store the stripe charge id for this sale
-    charge_id = models.CharField(max_length=32)
-	#delivery_address = models.CharField(max_length=100) # needs to come from Leafletjs + GeoJson or Google Maps API or Buyer form
-	#delivery_lat = models.DecimalField() # this needs to come from the Leafletjs 
-	#delivery_lng = models.DecimalField() # this needs to come from the Leafletjs
-	#delivery_point = models.PointField() # this needs to come from the Leafletjs
-	# additional information about the sale, such as the customer id, the seller id, the quantity sold, and the amount paid, should be captured here.
+	charge_id = models.CharField(max_length=32)
+	#address = models.CharField(max_length=100)
 	
-
-
-    def charge(self, price_in_cents, number, exp_month, exp_year, cvc):
-        """
-        Takes a the price and credit card details: number, exp_month,
-        exp_year, cvc.
- 
-        Returns a tuple: (Boolean, Class) where the boolean is if
-        the charge was successful, and the class is response (or error)
-        instance.
-        """
- 
-        if self.charge_id: # don't let this be charged twice!
-            return False, Exception(message="Already charged.")
+	def charge(self, price_in_cents, number, exp_month, exp_year, cvc):
+		if self.charge_id: # don't let this be charged twice!
+			return False, Exception(message="Already charged.")
  
         try:
 			response = self.stripe.Charge.create(
@@ -194,45 +178,41 @@ class Sale(models.Model):
 
 class Seller(models.Model):
 	name = models.CharField(max_length=200)
-    address = models.CharField(max_length=100)
-    phone = models.IntegerField()
-    email = models.CharField(max_length=50)
-
-    city = models.CharField(max_length=50)
-    location = gis_models.PointField(u"longitude/latitude", geography=True, blank=True, null=True)
-
-    gis = gis_models.GeoManager()
-    objects = models.Manager()
-
-    radius = models.IntegerField(default=10)
-    open_hour = models.IntegerField()
-    close_hour = models.IntegerField()
-    item = models.CharField(max_length=50)
-    item_unit = models.CharField(max_length=50)
-    price_unit = models.CharField(max_length=50)
-    picture = models.FileField()
-    description = models.TextField()
-    min_order_amount = models.IntegerField()
-    license = models.TextField()
-    license_exp = models.DateField()
-
-    is_active = models.BooleanField()
-    operating_days = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return self.name
-
-    def save(self, **kwargs):
-        if not self.location:
-            address = u'%s %s' % (self.city, self.address)
-            address = address.encode('utf-8')
-            geocoder = Google()
-            try:
-                _, latlon = geocoder.geocode(address)
-            except (URLError, GQueryError, ValueError):
-                pass
-            else:
-                point = "POINT(%s %s)" % (latlon[1], latlon[0])
-                self.location = geos.fromstr(point)
-        super(Seller, self).save()        
+	address = models.CharField(max_length=100)
+	phone = models.IntegerField()
+	email = models.CharField(max_length=50)
+	city = models.CharField(max_length=50)
+	location = gis_models.PointField(u"longitude/latitude", geography=True, blank=True, null=True)
+	gis = gis_models.GeoManager()
+	objects = models.Manager()
+	radius = models.IntegerField(default=10)
+	open_hour = models.IntegerField()
+	close_hour = models.IntegerField()
+	item = models.CharField(max_length=50)
+	item_unit = models.CharField(max_length=50)
+	price_unit = models.CharField(max_length=50)
+	picture = models.FileField()
+	description = models.TextField()
+	min_order_amount = models.IntegerField()
+	license = models.TextField()
+	license_exp = models.DateField()
+	is_active = models.BooleanField()
+	operating_days = models.CharField(max_length=100)
+	
+	def __unicode__(self):
+		return self.name
+		
+	def save(self, **kwargs):
+		if not self.location:
+			address = u'%s %s' % (self.city, self.address)
+			address = address.encode('utf-8')
+			geocoder = GoogleV3()
+			try:
+				_, latlon = geocoder.geocode(address)
+			except (URLError, GQueryError, ValueError):
+				pass
+			else:
+				point = "POINT(%s %s)" % (latlon[1], latlon[0])
+				self.location = geos.fromstr(point)
+		super(Seller, self).save()        
         
