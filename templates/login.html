@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load static %}
+{% load socialaccount %}
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Test</title>
+
+    <!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="{% static 'cover.css' %}">
+	
+	<!-- stripe javascript -->
+	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+	
+	
+  </head>
+
+
+  <body>
+
+   <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand"><a href="/about">Test</a></h3>
+<!--              <nav>
+                <ul class="nav masthead-nav">
+                  <li><a href="/"></a></li>
+                </ul>
+              </nav>
+-->            </div>
+          </div>
+			<div class="container-fluid">
+			
+		
+			
+				{% if user and not user.is_anonymous %}
+				
+				  <h2>Hello, {{ user.get_full_name }}. </h2>
+				  <p>We're happy to be working with you.</p>				  
+				  
+				  
+				{% else %}
+					<div class="inner cover">
+
+						<h1 class="cover-heading"></h1>
+							<p class="lead"></p>
+							<p> <a href="{% provider_login_url 'stripe' %}" class="btn btn-default">Connect With Stripe</a></p>
+					</div>
+
+				{% endif %} 
+					
+					
+		
+
+			</div>
+		  
+		  
+		  
+		  
+		  
+          <div class="mastfoot">
+            <div class="inner">
+				<!--<p> all rights reserved </p>-->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+	
+	
+	
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  </body>
+</html>

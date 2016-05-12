@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+	
+	
+    <title>Test</title>
+	
+	<!-- stripe javascript -->
+	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+	
+	<!-- leaflet javascript -->
+
+</head>
+
+{% block content %}
+<br><br><br>
+
+<div class="container-fluid">
+<div class="form-group">
+
+  {% for key, value in form.errors.items %}
+      <p>{{ value }}</p>
+  {% endfor %}
+ 
+  <form action="" method="post">{% csrf_token %}
+ 
+    {% for field in form %}
+      <div class="form-group">
+ 
+        <div class="field-label">
+          {{ field.label_tag }}:
+        </div>
+ 
+        <div class="field-field">
+          {{ field }}
+          {{ field.errors }}
+        </div>
+ 
+      </div>
+    {% endfor %}
+ 
+    <br>
+    <input type="submit" class="btn btn-default" value="Charge Me!" />
+  </form>
+ 
+</div>
+
+</div>
+
+{% endblock %}
+
