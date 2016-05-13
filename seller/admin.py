@@ -1,6 +1,5 @@
-from django.contrib import admin
+from django.contrib.gis import admin
+from django.contrib import admin as normal_admin
 from .models import *
 
-# Register your models here.
-admin.site.register(Seller)
-
+normal_admin.site.register(Seller)

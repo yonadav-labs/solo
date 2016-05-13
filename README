@@ -1,21 +1,50 @@
-Installing Geospatial libraries(https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/geolibs/)
+Mobile responsive On Demand web based platform which routes orders to nearest available fulfillment partner, uses text alerts to update parties on progress of order delivery, and handles payment via Stripe Connect.
 
-	apt-get install binutils libproj-dev gdal-bin
+Here is an outline of the project workflow
 
-	wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
-	tar xjf geos-3.4.2.tar.bz2
+ 1. Based on Customer's location, only show Fulfillment Partners within Delivery Radius. Use Leafletjs based on 
+IP address, to instantiate LatLng. Then Customer can validate by selecting progress button or touching map in different
+location, then selecting progress button. Progress button saves LatLng to Postgres database. Database creates Point object based on LatLng. 
 
-	cd geos-3.4.2
-	./configure
-	make
-	sudo make install	
+ 2. Delivery Radius is set by Fulfillment Partner in their sign-up after Stripe Connect connection. Max Delivery Radius 
+should be set to 10 miles. Delivery Time should be goal of 1 hour or less. Fulfillment Partner needs to enter operating hours. Fulfillment Partner needs to enter their address and a Point object needs to be saved in the database which represents the Fulfillment Partner's location and their delivery radius. Fulfillment Partner to have 1 item to sell and 1 unit price for item and 1 picture and a 150 character description of item and minimum order amount, License number. Fulfillment Partner needs to confirm legal terms by reviewing a document and accepting the terms. Sales Tax Rate needs to be associated with Fulfillment Partner address. Any information that we can get from Stripe Connect to prepopulate these forms would be great, but if we have to we can ask Fulfillment Partner to re-enter information.
 
-	...
+ 3. Customer see's list of Fulfilment Partners, whose address and delivery radius cover's the Customer's delivery address.
+Customer should select a Fulfillment Partner from list and select quantity of items to purchase, confirms order and completes checkout.. List to show small thumbnail of item, unit price, minimum order amount, name of Fulfillment Partner, license number. 
+
+ 4. Payment is processed where Customer is charged total amount + sales tax, Fulfillment Partner is passed total amount + 
+sales tax - Stripe fee - (greater of 3% and $0.50 of Total Amount). This (greater of 3% and $0.50 of Total Amount) is Application_Fee which goes to the website account. The Customer token, Fulfillment Partner token, and website tokens need to be assigned to the transaction. 
+
+ 5. Order confirmation and details should be sent to Customer and Fulfillment Partner via email message with estimate of 
+Delivery Time. 
+
+ 6. If no Fulfillment Partner has location + radius which serves Customer's address, then Customer is prompted with 
+invitation to become a Fulfillment Partner by completing application and learning more about getting licensed. 
+Not sure this helps. Tried to outline the process again. I'm happy to work with you / hire your in getting this prototype deployed in the next step. We can discuss after we see what you've been able to do with this so far. Thanks for your efforts. I'll be back in a couple of hours.
+
+
+Installing Geospatial libraries
+
+	(https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/geolibs/)
+
+	sudo apt-get install libxml2-dev ***
+
+	* make sure to meet all requirements
+
 
 Deploy using fab
+
 	fab all
 	fab restart
-
+	fab remove
 	fab deploy
 	
 
+About geopy
+
+	(http://geopy.readthedocs.io/en/1.10.0/)
+
+To get the user's location use IP API
+
+	http://ip-api.com/json/
+	
