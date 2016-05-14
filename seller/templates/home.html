@@ -39,14 +39,29 @@
         id: 'mapbox.streets'
     }).addTo(mymap);
 
-    var popup = L.popup();
+    var currentIcon = L.icon({
+        iconUrl: '{% static "img/PIN.png" %}',
+        iconSize:     [50, 45], // size of the icon
+        iconAnchor:   [13, 35], // point of the icon which will correspond to marker's location
+        popupAnchor:  [0, -24] // point from which the popup should open relative to the iconAnchor
+    });
+
+    var marker = L.marker([{{ location1 }}], {icon: currentIcon}).addTo(mymap).bindPopup('{{ location1 }}')
+        .openPopup();
+
+    // add markers for sellers
+    {% for seller in sellers %}
+        L.marker([{{ seller.location.y }}, {{ seller.location.x }}]).addTo(mymap).bindPopup('{{ seller.name }}');        
+    {% endfor %}
 
     function onMapClick(e) {
         $('#id_address').val(e.latlng.lng+' '+e.latlng.lat);
-        popup
-            .setLatLng(e.latlng)
-            .setContent(e.latlng.toString())
-            .openOn(mymap);
+        // remove current marker
+        mymap.removeLayer(marker);  
+
+        // add updated current marker
+        var pos = e.latlng.lat+' '+e.latlng.lng;
+        marker = L.marker(e.latlng, {icon: currentIcon}).addTo(mymap).bindPopup(pos).openPopup();
     }
 
     mymap.on('click', onMapClick);
