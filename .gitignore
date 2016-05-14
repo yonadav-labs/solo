@@ -2,5 +2,6 @@
 *.pyo
 .DS_Store
 .coverage
-env
+media
+
 
