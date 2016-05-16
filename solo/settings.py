@@ -18,6 +18,9 @@ PROJECT_APP_PATH = os.path.dirname(os.path.abspath(__file__))
 PROJECT_APP = os.path.basename(PROJECT_APP_PATH)
 PROJECT_ROOT = BASE_DIR = os.path.dirname(PROJECT_APP_PATH)
 
+
+STRIPE_API_KEY = 'sk_test_1AFSPD5Dg8RihyPPtylWiSsR'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 

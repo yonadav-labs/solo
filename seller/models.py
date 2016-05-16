@@ -4,21 +4,16 @@ from django.contrib.gis.db import models
 from django.contrib.gis import geos
 
 from django.db import models as normal_models
-
+ 
 from geopy.geocoders import GoogleV3
 from geopy.exc import GeocoderQueryError
 
 from urllib2 import URLError
-
-
-PRICE_UNIT = (
-	('Dollar', 'Dollar'),
-	('Cent', 'Cent'),
-)
+from django.conf import settings
 
 
 class Seller(normal_models.Model):
-	name = normal_models.CharField(max_length=200)
+	name = normal_models.CharField(max_length=200, unique=True)
 	address = normal_models.CharField(max_length=100)
 	location = models.PointField(u"longitude/latitude", geography=True, blank=True, null=True)
 	phone = normal_models.IntegerField(blank=True, null=True)
@@ -28,8 +23,7 @@ class Seller(normal_models.Model):
 	close_hour = normal_models.IntegerField(default=6)
 
 	item = normal_models.CharField(max_length=50)
-	item_unit = normal_models.CharField(max_length=50, blank=True, null=True)
-	price_unit = normal_models.CharField(choices=PRICE_UNIT, max_length=50, blank=True, null=True)
+	unit_price = normal_models.IntegerField()		# price in cent
 	picture = normal_models.FileField(blank=True, null=True)
 	description = normal_models.TextField(blank=True, null=True)
 	min_order_amount = normal_models.IntegerField(default=1)
@@ -43,7 +37,7 @@ class Seller(normal_models.Model):
 	objects = normal_models.Manager()
 
 	def __unicode__(self):
-	    return self.name
+		return self.name
 
 	def save(self, **kwargs):
 		if not self.location:
@@ -60,21 +54,71 @@ class Seller(normal_models.Model):
 		super(Seller, self).save()        
 
 
-class Order(normal_models.Model):
-	owner = models.ForeignKey(Seller, related_name="orders")
-	# pickup_addr = models.CharField(max_length=250)
-	# dropoff_addr = models.CharField(max_length=250)
-	# contact_name = models.CharField(max_length=250)
-	# phone = models.CharField(max_length=20)
-	# pickup_time = models.DateTimeField()
-	# dropoff_time = models.DateTimeField(blank=True, null=True, default='')
-	# items = models.CharField(choices=ITEMS, max_length=50)
-	# payment_type = models.CharField(choices=PAYMENT_TYPE, max_length=50)
-	# key = models.CharField(max_length=100)
-	# status = models.CharField(choices=STATUS, default='Initial', max_length=20)
-	# track_link = models.CharField(max_length=200, blank=True, null=True)
+ 
+#############################################################
+# this is the charge model. 								#
+# we want to include additional info about the charge, 		#
+# such as fulfillment_partner_token, customer_token,		#
+# amount, price, sales tax, date-time, delivery distance,	#
+# date-time estimated delivery based on Google Maps API.	#
+#############################################################
+
+
+# sale model
+class Sale(normal_models.Model):
+	seller = normal_models.ForeignKey(Seller, related_name="seller")
 	quantity = normal_models.FloatField()
+	# store the stripe charge id for this sale
+	charge_id = normal_models.CharField(max_length=32, null=True, blank=True)
+	delivery_address = normal_models.CharField(max_length=100) # needs to come from Leafletjs + GeoJson or Google Maps API or Buyer form
+	#delivery_lat = models.DecimalField() # this needs to come from the Leafletjs 
+	#delivery_lng = models.DecimalField() # this needs to come from the Leafletjs
+	#delivery_point = models.PointField() # this needs to come from the Leafletjs
 
+	def __init__(self, *args, **kwargs):
+		super(Sale, self).__init__(*args, **kwargs)
 
-	def __str__(self):
-		return self.owner.username
+		# bring in stripe, and get the api key from settings.py
+		import stripe
+		stripe.api_key = settings.STRIPE_API_KEY
+
+		self.stripe = stripe
+ 
+	def charge(self, number, exp_month, exp_year, cvc):
+		"""
+		Takes a the price and credit card details: number, exp_month,
+		exp_year, cvc.
+
+		Returns a tuple: (Boolean, Class) where the boolean is if
+		the charge was successful, and the class is response (or error)
+		instance.
+		"""
+		price_in_cents = int(self.quantity * self.seller.unit_price)
+
+		if self.charge_id: # don't let this be charged twice!
+			return False, Exception(message="Already charged.")
+
+		try:
+			response = self.stripe.Charge.create(
+				amount = price_in_cents,
+				currency = "usd",
+				card = {
+				"number" : number,
+				"exp_month" : exp_month,
+				"exp_year" : exp_year,
+				"cvc" : cvc,
+				#### it is recommended to include the address! ###
+				},
+				#application_fee = price_in_cents * 0.30, # application fee. 
+				#destination = fulfillment_partner_token # this doesn't work. need to figure out how to populate this with Seller selected by Buyer.
+				#tax = need to figure this out. may be best to use Stripe third party application like Avalar or TaxCloud and let Seller handle.
+				description='Thank you for your purchase!')
+
+			self.charge_id = response.id
+			#self.amount = response.amount
+		except self.stripe.CardError, ce:
+			# charge failed
+			return False, ce
+
+		return True, self
+
