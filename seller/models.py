@@ -13,7 +13,7 @@ from urllib2 import URLError
 
 PRICE_UNIT = (
 	('Dollar', 'Dollar'),
-	('Cent', 'Cent'),
+	('Cent', 'Cent'), # how does this work?
 )
 
 
@@ -21,7 +21,7 @@ class Seller(normal_models.Model):
 	name = normal_models.CharField(max_length=200)
 	address = normal_models.CharField(max_length=100)
 	location = models.PointField(u"longitude/latitude", geography=True, blank=True, null=True)
-	phone = normal_models.IntegerField(blank=True, null=True)
+	phone = normal_models.IntegerField(blank=True, null=True) # seems to validate less than 2147483647 and so not all phone numbers will validate
 	email = normal_models.CharField(max_length=50)
 	radius = normal_models.FloatField(default=10)
 	open_hour = normal_models.IntegerField(default=8)
@@ -37,7 +37,7 @@ class Seller(normal_models.Model):
 	license = normal_models.TextField(blank=True, null=True)
 	license_exp = normal_models.DateField(blank=True, null=True)
 	is_active = normal_models.BooleanField(default=True)
-	operating_days = normal_models.CharField(max_length=100, blank=True, null=True)
+	operating_days = normal_models.CharField(max_length=100, blank=True, null=True) # how does this work? How do we select M-F and times for each day. How does Seller go on vacation and take a break or set status to "on-hold" for a period of time? How do we use this to show sellers to customers when they query based on location etc.?
 
 	gis = models.GeoManager()
 	objects = normal_models.Manager()

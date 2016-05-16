@@ -20,8 +20,9 @@ def get_sellers(location):
     '''
     current_point = geos.fromstr("POINT(%s)" % location)
     sellers = Seller.gis.distance(current_point).order_by('distance')
-    return [seller for seller in sellers if seller.distance.mi <= seller.radius]
+    return [seller for seller in sellers if seller.distance.mi <= seller.radius] # this is good but we also want the filter on open_hours
 
+# this doesn't seem to work correctly.
 def get_client_ip(request):
     '''
     get ip from the request
@@ -51,9 +52,9 @@ def home(request):
             location1 = '%s,%s' % (lnglat[1], lnglat[0])
     else:
         form = AddressForm()
-        sellers = []
-        ip = get_client_ip(request)
-        ip = '142.33.135.231'
+        sellers = [] 
+        ip = get_client_ip(request) # this seems to work only onClick events
+        ip = '142.33.135.231' # this is the location at which the map initializes the location, this needs to be set to the ip address of the user.
         lat, lon = get_client_location_with_ip(ip)
         location1 = '%f, %f' % (lat, lon)
         location2 = '%f %f' % (lon, lat)    # geopy location
@@ -74,3 +75,33 @@ def start_order(request):
     return render(request, 'order.html', {
         'form': form, 
     })
+
+	
+# login and logout redirect	
+from django.shortcuts import render_to_response, redirect, render
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
+
+def login(request):
+	return render(request, 'login.html')
+	
+def logout(request):
+	auth_logout(request)
+	return redirect('/')	
+	
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
+
+
+def logout_page(request):
+    """
+    Log users out and re-direct them to the main page.
+    """
+    logout(request)
+    return HttpResponseRedirect('/')
+	
+	
+	
+	
+	
+	

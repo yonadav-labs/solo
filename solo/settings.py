@@ -29,8 +29,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+STATICFILES_DIRS = []
 
 MEDIA_URL = STATIC_URL + "media/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))
@@ -45,9 +46,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-
+	'django.contrib.sites',
+	
     'seller',
+	
+	# stripe authentication through allauth
+	'allauth',
+	'allauth.account',
+	'allauth.socialaccount',
+	'allauth.socialaccount.providers.stripe',
+
 ]
+
+# add login redirect
+LOGIN_REDIRECT_URL = '/new'
+
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,6 +87,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.static',
                 'django.contrib.messages.context_processors.messages',
+				
             ],
         },
     },
@@ -129,4 +143,50 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+
+## stripe allauth and socialauth
+SITE_ID = 1
+
+#################################################################
+# allauth settings for social connections
+
+# source: https://realpython.com/blog/python/adding-social-authentication-to-django/
+AUTHENTICATION_BACKENDS = (
+	#'social.backends.google.GoogleOAuth',
+	#'social.backends.google.GoogleOAuth2',
+	#'social.backends.instagram.InstagramOAuth2',
+	'django.contrib.auth.backends.ModelBackend',
+	'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+
+# dictionary containing provider specific settings.
+SOCIALACCOUNT_PROVIDERS = {
+	'stripe':
+		{'SCOPE': ['read_write',],
+		}
+}
+
+# attempt to bypass the signup form by using fields (e.g. username, email) 
+# retrieved from the social account provider. If a conflict arises due to a 
+# duplicated e-mail the signup form will still kick in
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+#enforce uniqueness of e-mail address
+ACCOUNT_UNIQUE_EMAIL = True
+
+# user is required ot enter a username when signing up. note that the
+# user will be asked to do so even if ACCOUNT_AUTHENTICATION_METHOD is set 
+# to email. Set to False when you do not wish to prompt the user to enter a username.
+ACCOUNT_USERNAME_REQUIRED = False
+
+# the use is required to hand over an e-mail address when signing up
+ACCOUNT_EMAIL_REQUIRED = True
+
+# request email address from third part account provider
+SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
+
+
+
 
