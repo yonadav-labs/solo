@@ -41,7 +41,6 @@
 var customer_location = '{{ location1 }}';
 var mymap = L.map('mapid').setView([{{ location1 }}], 12);
 
-var mymap = L.map('mapid').setView([{{ location1 }}], 12 );
 
 <!-- get location on map initialize-->
 	function onLocationFound(e) {	
@@ -88,16 +87,16 @@ function onMapClick(e) {
 	}
 
 mymap.on('click', onMapClick);
-<<<<<<< HEAD
+// HEAD
     
-=======
+//=======
 <!-- add get location -->
 mymap.on('locationfound', onLocationFound);
 mymap.on('locationerror', onLocationError);
 
  
 </script>   
->>>>>>> 54430a2559d7efa2b800ae84fbf51bd6a33fac22
+<script> //54430a2559d7efa2b800ae84fbf51bd6a33fac22
 
 function start_order(seller_id) 
 {

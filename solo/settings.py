@@ -32,9 +32,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+#STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
 
 MEDIA_URL = STATIC_URL + "media/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))
