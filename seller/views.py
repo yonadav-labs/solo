@@ -113,3 +113,34 @@ def charge(request):
  
     return render(request, "checkout.html",
                         {'form': form})
+
+# login and logout redirect	
+from django.shortcuts import render_to_response, redirect, render
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
+
+def login(request):
+	return render(request, 'login.html')
+	
+def logout(request):
+#Add a comment to this line
+	auth_logout(request)
+	return redirect('/')	
+	
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
+
+
+def logout_page(request):
+    """
+    Log users out and re-direct them to the main page.
+    """
+    logout(request)
+    return HttpResponseRedirect('/')					
+
+# login required for creating new seller account
+@login_required(login_url='/login')
+def seller(request):
+    tmpl_vars = {'form': AddressForm()}
+    return render(request, 'seller.html', tmpl_vars)	
+						

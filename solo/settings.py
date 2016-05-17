@@ -62,7 +62,8 @@ INSTALLED_APPS = [
 ]
 
 # add login redirect
-LOGIN_REDIRECT_URL = '/new'
+# sign up form for sellers
+LOGIN_REDIRECT_URL = '/seller' 
 
 
 MIDDLEWARE_CLASSES = [
@@ -107,6 +108,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'solo',
         'USER': 'postgres',
+
     }
 }
 

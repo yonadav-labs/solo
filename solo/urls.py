@@ -22,5 +22,9 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^start_order/$', views.start_order, name='start_order'),
     url(r'^charge/$', views.charge, name="charge"),
+	url(r'^login/$', views.login),
+	url(r'^logout/$', views.logout),
+	url(r'^seller/$', views.seller),
+	url(r'^accounts/', include('allauth.urls')),
     url(r'^pre_charge/$', views.pre_charge, name="pre_charge"),
 ]
