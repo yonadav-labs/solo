@@ -11,17 +11,23 @@ from geopy.exc import GeocoderQueryError
 from urllib2 import URLError
 from django.conf import settings
 
+# for phone number validator
+from django.core.validators import RegexValidator # source: http://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
+
+# for PrimaryKey of seller
+from django.contrib.auth.models import User
 
 class Seller(normal_models.Model):
-	name = normal_models.CharField(max_length=200, unique=True)
+	#name = normal_models.ForeignKey(User) # needs to be populated from Stripe Connect api redirect 
+	name = normal_models.CharField(max_length=100, unique=True, default=User)
 	address = normal_models.CharField(max_length=100)
 	location = models.PointField(u"longitude/latitude", geography=True, blank=True, null=True)
-	phone = normal_models.IntegerField(blank=True, null=True) # seems to validate less than 2147483647 and so not all phone numbers will validate
+	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+	phone = models.CharField(max_length=12 ,validators=[phone_regex], blank=True) # validators should be a list
 	email = normal_models.CharField(max_length=50)
 	radius = normal_models.FloatField(default=10)
 	open_hour = normal_models.IntegerField(default=8)
 	close_hour = normal_models.IntegerField(default=6)
-
 	item = normal_models.CharField(max_length=50)
 	unit_price = normal_models.IntegerField()		# price in cent
 	picture = normal_models.FileField(blank=True, null=True)
@@ -53,7 +59,30 @@ class Seller(normal_models.Model):
 
 		super(Seller, self).save()        
 
+# open hours 
+# reference: http://stackoverflow.com/questions/12216771/django-objects-for-business-hours
+WEEKDAYS = [
+  (1, ("Monday")),
+  (2, ("Tuesday")),
+  (3, ("Wednesday")),
+  (4, ("Thursday")),
+  (5, ("Friday")),
+  (6, ("Saturday")),
+  (7, ("Sunday")),
+]
 
+
+class OpeningHours(models.Model):
+	store = models.ForeignKey(Seller)
+	weekday = models.IntegerField(
+        choices=WEEKDAYS,
+        unique=True )
+	from_hour = models.TimeField()
+	to_hour = models.DurationField()
+	
+	class Meta:
+		unique_together=(('weekday', 'store',),)
+		
  
 #############################################################
 # this is the charge model. 								#
@@ -66,14 +95,10 @@ class Seller(normal_models.Model):
 
 # sale model
 class Sale(normal_models.Model):
-	seller = normal_models.ForeignKey(Seller, related_name="seller")
+	seller = normal_models.ForeignKey(Seller, related_name='seller')
 	quantity = normal_models.FloatField()
-	# store the stripe charge id for this sale
-	charge_id = normal_models.CharField(max_length=32, null=True, blank=True)
+	charge_id = normal_models.CharField(max_length=32, null=True, blank=True) # this should be returned with the Strip Connect api redirect json
 	delivery_address = normal_models.CharField(max_length=100) # needs to come from Leafletjs + GeoJson or Google Maps API or Buyer form
-	#delivery_lat = models.DecimalField() # this needs to come from the Leafletjs 
-	#delivery_lng = models.DecimalField() # this needs to come from the Leafletjs
-	#delivery_point = models.PointField() # this needs to come from the Leafletjs
 
 	def __init__(self, *args, **kwargs):
 		super(Sale, self).__init__(*args, **kwargs)

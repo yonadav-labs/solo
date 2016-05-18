@@ -5,20 +5,17 @@ from django import forms
 from .models import *
 
 
-class AddressForm(forms.Form):
+class AddressForm(forms.Form):	
     address = forms.CharField()
     
 
-class OrderForm(forms.Form):
-    name = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Name')
-    address = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}), label='Customer Location')
-    unit_price = forms.IntegerField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}))
-    picture = forms.CharField(widget=forms.TextInput(attrs={'required': False, 'class': 'form-control'}))
-    min_order_amount = forms.FloatField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}))
-    license_number = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}))
-    quantity = forms.FloatField(widget=forms.NumberInput(attrs={'required': True, 'class': 'form-control'}))
+class SellerForm(forms.ModelForm):
+	class Meta:
+		model = Seller
+		fields = ['id', 'name', 'address', 'phone', 'radius', 'open_hour', 'close_hour', 'item', 'unit_price', 'picture', 'description', 'min_order_amount',
+		'license_number', 'license_exp', 'operating_days']		
 
-
+	
 #################################################################################
 # buyer charge form.                                                            #
 # it may be easier to use the stripe api instead of this and I'm concerned      #
@@ -98,34 +95,39 @@ class CCExpField(forms.MultiValueField):
             day = monthrange(year, month)[1]
             return date(year, month, day)
         return None
- 
 
-class SalePaymentForm(forms.Form):
-    sale_id = forms.CharField()
-    number = CreditCardField(required=True, label="Card Number")
-    expiration = CCExpField(required=True, label="Expiration")
-    cvc = forms.IntegerField(required=True, label="CVC Number", 
-        max_value=9999, widget=forms.TextInput(attrs={'size': '4'}))
-    
-    def clean(self):
-        cleaned = super(SalePaymentForm, self).clean()
-        
-        if not self.errors:
-            number = self.cleaned_data["number"]
-            exp_month = self.cleaned_data["expiration"].month
-            exp_year = self.cleaned_data["expiration"].year
-            cvc = self.cleaned_data["cvc"]
-            sale_id = self.cleaned_data["sale_id"]
-            sale = Sale.objects.get(id=sale_id)
-            
-            # let's charge $10.00 for this particular item
-            success, instance = sale.charge(number, exp_month, exp_year, cvc)
-            
-            if not success:
-                raise forms.ValidationError("Error: %s" % instance.message)
-            else:
-                instance.save()
-                # we were successful! do whatever you will here...
-                # perhaps you'd like to send an email...
-                pass
-        return cleaned
+class OrderForm(forms.Form):
+	name = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Name')
+	id = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller ID')
+	address = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'required': True, 'class': 'form-control'}), label='Customer Location')
+	unit_price = forms.IntegerField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label="Unit Price in Cents")
+	min_order_amount = forms.FloatField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label="Min. Quantity of Units")	
+	quantity = forms.FloatField(widget=forms.NumberInput(attrs={'required': True, 'class': 'form-control'}), label="Quantity of Units")
+	buyer_name = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}), label="Buyer Name")
+	buyer_phone = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}),label="Buyer Phone Number")
+	number = CreditCardField(widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}),required=True, label="Card Number")
+	expiration = CCExpField(required=True, label="Expiration")
+	cvc = forms.IntegerField(required=True, label="CVC Number", max_value=9999, widget=forms.TextInput(attrs={'size': '4'}))
+	
+	def clean(self):
+		cleaned = super(OrderForm, self).clean()
+		
+		if not self.errors:
+			number = self.cleaned_data["number"]
+			exp_month = self.cleaned_data["expiration"].month
+			exp_year = self.cleaned_data["expiration"].year
+			cvc = self.cleaned_data["cvc"]
+			seller = self.cleaned_data['name'] # getting error here. 
+			sale = Sale()
+			
+			success, instance = sale.charge(number, exp_month, exp_year, cvc)
+			
+			if not success:
+				raise forms.ValidationError("Error: %s" % instance.message)
+				
+			else:
+				instance.save()
+				pass
+			return cleaned
+
+			

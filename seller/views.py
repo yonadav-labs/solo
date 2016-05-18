@@ -78,7 +78,7 @@ def start_order(request):
 
     seller = Seller.objects.get(id=id)
     initial_data = model_to_dict(seller)
-    # initial_data['address'] = address
+    #initial_data['address'] = address
     initial_data['address'] = location
 
     form = OrderForm(initial=initial_data)
@@ -91,14 +91,14 @@ def start_order(request):
 def pre_charge(request):
     form = OrderForm(request.POST)
     if form.is_valid():
-        seller = Seller.objects.get(name=form.cleaned_data['name'])
         sale = Sale()
-        sale.seller_id = seller.id
+        #sale.seller = form.cleaned_data['name']
+        sale.id = form.cleaned_data['id']
         sale.quantity = form.cleaned_data['quantity']
         sale.delivery_address = form.cleaned_data['address']
         sale.save()
 
-        saleform = SalePaymentForm(initial={'sale_id':sale.id})
+        saleform = OrderForm(initial={'sale_id':sale.id})
         return render(request, "checkout.html", {'form': saleform})
     return render(request, 'order.html', {
         'form': form, 
@@ -106,7 +106,7 @@ def pre_charge(request):
 
 def charge(request):
     if request.method == "POST":
-        form = SalePaymentForm(request.POST)
+        form = OrderForm(request.POST)
  
         if form.is_valid(): # charges the card
             return HttpResponse("Success! We've charged your card!")
@@ -141,6 +141,10 @@ def logout_page(request):
 # login required for creating new seller account
 @login_required(login_url='/login')
 def seller(request):
-    tmpl_vars = {'form': AddressForm()}
+    tmpl_vars = {'form': SellerForm()}
     return render(request, 'seller.html', tmpl_vars)	
-						
+	# upon success what is the redirect?	
+
+
+def about(request):
+	return render(request, 'about.html')	
