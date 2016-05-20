@@ -96,6 +96,7 @@ class OpeningHours(models.Model):
 # sale model
 class Sale(normal_models.Model):
 	seller = normal_models.ForeignKey(Seller, related_name='seller')
+	CONNECTED_STRIPE_ACCOUNT_ID = normal_models.ForeignKey(Seller, ) # seller token
 	quantity = normal_models.FloatField()
 	charge_id = normal_models.CharField(max_length=32, null=True, blank=True) # this should be returned with the Strip Connect api redirect json
 	delivery_address = normal_models.CharField(max_length=100) # needs to come from Leafletjs + GeoJson or Google Maps API or Buyer form
@@ -134,9 +135,9 @@ class Sale(normal_models.Model):
 				"cvc" : cvc,
 				#### it is recommended to include the address! ###
 				},
-				#application_fee = price_in_cents * 0.30, # application fee. 
-				#destination = fulfillment_partner_token # this doesn't work. need to figure out how to populate this with Seller selected by Buyer.
-				#tax = need to figure this out. may be best to use Stripe third party application like Avalar or TaxCloud and let Seller handle.
+				#source = {TOKEN}, # token for the customer
+				destination = {CONNECTED_STRIPE_ACCOUNT_ID}, # destination for the money (seller)
+				application_fee = price_in_cents * 0.30, # application fee. 
 				description='Thank you for your purchase!')
 
 			self.charge_id = response.id
