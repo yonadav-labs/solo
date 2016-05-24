@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load socialaccount %}
+
+{% block main %}
+	{% if user and not user.is_anonymous %}
+	  <h2>Hello, {{ user.get_full_name }}. </h2>
+	  <p>We're happy to be working with you.</p>						  
+
+	{% else %}
+	  <a href="{% provider_login_url 'stripe' %}"><img src="/static/img/blue-on-light.png"></a>
+	{% endif %} 
+{% endblock %}

@@ -47,5 +47,8 @@ About geopy
 
 To get the user's location use IP API
 
-	http://ip-api.com/json/
+	http://freegeoip.net/json/{ip address}
 	
+Stripe Docs.
+
+	https://stripe.com/docs/charges	

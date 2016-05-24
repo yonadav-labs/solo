@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block main %}
+<div class="row">
+<div class="col-md-8">
+<h3>Welcome to Solo </h3>
+<p>We're happy to be working with you. Please enter the below information to complete your application. Once we approve your application you will be able to begin accepting orders and delivering product.</p>         
+
+{{ form.errors }}
+<form method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
+    {% csrf_token %}
+  {% for elem in form %}
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="id_{{elem.name}}">{{elem.label}}:</label>
+    <div class="col-sm-6">
+      	{{ elem }} 
+    </div>
+  </div>	
+  {% endfor %}
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-warning">Save</button>
+    </div>
+  </div>		
+</form>
+</div>
+</div>
+{% endblock %}
