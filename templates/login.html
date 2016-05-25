@@ -9,6 +9,9 @@
 	  <p>We're happy to be working with you.</p>						  
 
 	{% else %}
+	<div class="span12" style="text-align:center">
 	  <a href="{% provider_login_url 'stripe' %}"><img src="/static/img/blue-on-light.png"></a>
+	</div>
 	{% endif %} 
+	
 {% endblock %}

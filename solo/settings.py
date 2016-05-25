@@ -7,12 +7,21 @@ PROJECT_APP = os.path.basename(PROJECT_APP_PATH)
 PROJECT_ROOT = BASE_DIR = os.path.dirname(PROJECT_APP_PATH)
 
 
-STRIPE_KEYS = {
-    'API_KEY': 'sk_test_1AFSPD5Dg8RihyPPtylWiSsR',
-    'PUBLIC_KEY': 'pk_test_Q4RGBzPFhWbMP2daCqMg6Rj7',
-    'CLIENT_ID': 'ca_8Qcy5FPjST3HuFl7xXjisiodyjKE5d8V',
-}
+# return error: "The destination parameter must be a connected account" Maybe this is a simple Stripe account but not a Stripe Connect account.
+#STRIPE_KEYS = {
+#    'API_KEY': 'sk_test_1AFSPD5Dg8RihyPPtylWiSsR',
+#	'PUBLIC_KEY': 'pk_test_Q4RGBzPFhWbMP2daCqMg6Rj7',
+#    'CLIENT_ID': 'ca_8Qcy5FPjST3HuFl7xXjisiodyjKE5d8V',
+#}
 
+
+# returns error: "The destination parameter cannot be set to your own account" 
+# So these are the values for my allauth Stripe Connect Account. I set up a separate one for a new seller. 
+STRIPE_KEYS = {
+    'API_KEY': 'sk_test_QqlkG4EYvRku2zvzrZRksmwJ',
+    'PUBLIC_KEY': 'pk_test_egZpQehcB86xWgcr0n1eZluM',
+    'CLIENT_ID': 'ca_8IFn5chY6QPiJ4ayx9roSbAqrIA5tZgx',
+}
 
 
 # Quick-start development settings - unsuitable for production
@@ -100,7 +109,7 @@ WSGI_APPLICATION = 'solo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'solo',
+        'NAME': 'solo2',
         'USER': 'postgres',
 		'PASSWORD': 'pbn6h9E',
     }
