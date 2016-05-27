@@ -1,6 +1,6 @@
-function start_order(seller_id) 
+function start_order(seller_id, seller_distance) 
 {
-    $.post('/start_order/', 'id='+seller_id+'&location='+customer_location)
+    $.post('/start_order/', 'id='+seller_id+'&location='+customer_location+'&distance='+seller_distance)
     .success(function(data){
       $('#order_div').html(data);
     });

@@ -81,7 +81,7 @@ class Sale(normal_models.Model):
 	seller = normal_models.ForeignKey(Seller, related_name='seller')
 	quantity = normal_models.FloatField()
 	charge_id = normal_models.CharField(max_length=32, null=True, blank=True) # this should be returned with the Strip Connect api redirect json
-	delivery_address = normal_models.CharField(max_length=100) # needs to come from Leafletjs + GeoJson or Google Maps API or Buyer form
+	delivery_address = normal_models.CharField(max_length=500)
 	buyer_name = normal_models.CharField(max_length=50)
 	buyer_phone = normal_models.CharField(max_length=20)
 	

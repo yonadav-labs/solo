@@ -2,8 +2,9 @@
 {% block main %}
 <h3>Order Information</h3>
 {{ form.errors }}
-<form method="post" class="form-horizontal" role="form" action="/charge/">
+<form method="post" class="form-horizontal" role="form" action="/charge/" id="order_form">
     {% csrf_token %}
+    <input type="hidden" name="stripeToken" id="stripe_token">
   {% for elem in form %}
   <div class="form-group">
   {% if elem.name == 'quantity' %}
@@ -18,21 +19,48 @@
   </div>
   {% endfor %}
   <div class="form-group">
-    <label class="control-label col-sm-3" for="id_total_price">Total Value:</label>
-    <div class="col-sm-6">
-        <input type="text" id="total_price" class="form-control" readonly="true">
-    </div>  
-  </div>  
-  <div class="form-group">
     <div class="col-sm-offset-2 col-sm-5">
-      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-              data-key="{{ key }}"
-              data-name="Seller: {{form.first_name.value}}"
-              data-description="Purchase a item"
-              data-email="{{form.email.value}}"
-              data-locale="auto">
-      </script>  
+      <button id="customButton" class="btn btn-primary">Pay with Card</button>
     </div>
   </div>		
 </form>
+
+<script>
+  var handler = StripeCheckout.configure({
+    key: '{{ key }}',
+    locale: 'auto',
+    token: function(token) {
+      $('#stripe_token').val(token.id);
+      $("#order_form").submit();
+    }
+  });
+
+  $('#customButton').on('click', function(e) {
+    var form = $("#order_form");
+    form.validate();
+
+    // Open Checkout with further options:
+    if (form.valid()) {
+        var quantity = parseFloat($('#id_quantity').val());
+        var unit_price = parseInt($('#id_unit_price').val());
+        var amount = quantity * unit_price;
+        console.log(amount);
+
+        handler.open({
+          name: "Seller: {{form.first_name.value}}",
+          description: "Purchase a item",
+          currency: "usd",
+          amount: amount
+        });
+    }
+    e.preventDefault();
+  });
+
+  // Close Checkout on page navigation:
+  $(window).on('popstate', function() {
+    handler.close();
+  });
+</script>
+
+
 {% endblock %}

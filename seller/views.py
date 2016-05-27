@@ -80,15 +80,15 @@ def buy(request):
 def start_order(request):
     id = request.POST.get('id')
     location = request.POST.get('location')
-    
-    # geolocator = Nominatim()
-    # address = geolocator.reverse(location)
+    distance = request.POST.get('distance')
+    geolocator = Nominatim()
+    address = geolocator.reverse(location)
 
     seller = Seller.objects.get(id=id)
     initial_data = model_to_dict(seller)
-    #initial_data['address'] = address
-    initial_data['address'] = location
-    # initial_data['distance'] = seller.distance.mi
+    initial_data['address'] = address
+    # initial_data['address'] = location
+    initial_data['distance'] = distance+' miles away'
 
     form = OrderForm(initial=initial_data)
 
@@ -121,7 +121,7 @@ def charge(request):
         sale = Sale()
         sale.seller = seller
         sale.quantity = float(form.cleaned_data['quantity'])
-        # sale.delivery_address = form.cleaned_data['address']
+        sale.delivery_address = form.cleaned_data['address']
         sale.buyer_name = form.cleaned_data['buyer_name']
         sale.buyer_phone = form.cleaned_data['buyer_phone']
         sale.charge_id = charge.id
@@ -129,7 +129,7 @@ def charge(request):
 
         # send email
         email_subject = 'Order Confirmation'    
-        email_body = "Dear %s.\n\nYou've got an order from Customer: %s \nPhone Number: %s\nPlease confirm the order and fulfill it.\n\nThank you." % (seller.first_name, sale.buyer_name, sale.buyer_phone)
+        email_body = "Dear %s.\n\nYou've got an order from Customer: %s \nAddress: %s\nPhone Number: %s\nQuantity: %f\nPlease confirm the order and fulfill it.\n\nThank you." % (seller.first_name, sale.buyer_name, sale.delivery_address, sale.buyer_phone, sale.quantity)
         send_mail(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [seller.email], fail_silently=False)
 
         return render(request, 'order_success.html', {'seller': seller})
