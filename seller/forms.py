@@ -5,14 +5,10 @@ from django import forms
 from .models import *
 
 
-class AddressForm(forms.Form):	
-    address = forms.CharField()
-    
-
 class SellerForm(forms.ModelForm):
     class Meta:
         model = Seller
-        fields = ['first_name', 'email', 'address', 'phone', 'radius', 'open_hour', 'close_hour', 'item', 'unit_price', 'picture', 'description', 'min_order_amount', 'permit_number', 'license_exp', 'operating_days']		
+        fields = ['first_name', 'email', 'address', 'phone', 'radius', 'open_hour', 'close_hour', 'item', 'unit_price', 'picture', 'description', 'min_order_amount', 'permit_number', 'permit_exp', 'operating_days']		
         widgets = {
             'first_name': forms.TextInput(
                 attrs={'readonly': True, 'class': 'form-control'}
@@ -48,9 +44,9 @@ class SellerForm(forms.ModelForm):
                 attrs={'class': 'form-control'}
             ),
             'permit_number': forms.TextInput(
-                attrs={'class': 'form-control'}
+                attrs={'class': 'form-control',}
             ),
-            'license_exp': forms.TextInput(
+            'permit_exp': forms.TextInput(
                 attrs={'class': 'form-control'}
             ),
             'operating_days': forms.TextInput(
@@ -59,22 +55,11 @@ class SellerForm(forms.ModelForm):
         }
         labels = {
             'first_name': 'Business Name',
-            'license_exp': 'License Expiration',
+            'permit_exp': 'Permit Expiration',
             'unit_price': 'Unit Price in Cents',
             'min_order_amount': 'Min Order Quantity of Units',
         }
 	
-#################################################################################
-# buyer charge form.                                                            #
-# it may be easier to use the stripe api instead of this and I'm concerned      #
-# about                                                                         #
-# PCI compliance and don't want to store any credit card information.           #
-# Need to add Stripe Connect 'application_fee'                                  #
-# Need to populate customer_token for Buyer and 'destination' for Seller.       #
-# Need to integrate a sales tax api with Stripe, like Avalara or TaxCloud.      #
-# want sales tax to be collected and reported by Seller so it should go to      #
-# 'destination'.                                                                #
-################################################################################
         
 class OrderForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Name')
