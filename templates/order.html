@@ -7,17 +7,22 @@
   {% for elem in form %}
   <div class="form-group">
   {% if elem.name == 'quantity' %}
-  <div class="row"><div class="col-sm-9">
-    <div class="well">Please make sure to provide following information!</div>
-  </div></div>
+    <div class="col-sm-9">
+      <div class="well">Please make sure to provide following information!</div>
+    </div>
   {% endif %}
     <label class="control-label col-sm-3" for="id_{{elem.name}}">{{elem.label}}:</label>
     <div class="col-sm-6">
       	{{ elem }} 
     </div>
-  </div>	
+  </div>
   {% endfor %}
-
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="id_total_price">Total Value:</label>
+    <div class="col-sm-6">
+        <input type="text" id="total_price" class="form-control" readonly="true">
+    </div>  
+  </div>  
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-5">
       <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"

@@ -2,33 +2,32 @@
 {% load staticfiles %} 
 
 {% block main %}
-<div class="container">
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-    <h4>Select your location on the Map:</h4>
-	<div class="row">
-        <div class="col-md-8">
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<div class="row">
+        <div class="col-md-8" id="map_wrapper">
+            <h4>Select your location on the Map:</h4>
             <div id="mapid" style="height: 200px; margin-bottom: 30px;"></div>
         </div>
-    </div>
+
     <form method="post" action="./">
         {% csrf_token %}
         <input id="id_address" name="address" value="{{ location2 }}" type="hidden">
     </form>
 
-
     {% if sellers %}
-        <h4>Select a nearby Seller:</h4>
         <div class="col-md-7">
+            <h4>Select a nearby Seller:</h4>
             {% for seller in sellers %}	
 				<div class="media">
 					<div class="media-left">
 						<a href="javascript::void(0);" onclick="start_order({{ seller.id }});">
-							<img src="/static/media/{{ seller.picture }}" class="img-responsive" >
+							<img src="/static/media/{{ seller.picture }}" class="item-thumbnail img-thumbnail" >
 						</a>
 					</div>
 						<div class="media-body">
-								<b class="media-heading">{{ seller.first_name }}</b>Distance: {{ seller.distance.mi }} Miles away.</p>
-								<p> {{seller.item}} {{seller.description}}  </p>
+							<b class="media-heading">{{ seller.first_name }}</b>
+                            <p>Distance: {{ seller.distance.mi|floatformat:2 }} Miles away.</p>
+							<p> {{seller.item}} {{seller.description}}  </p>
 						</div>
                 </div>
 				<nav>
@@ -44,7 +43,6 @@
         <h4>No sellers are found nearby.</h4> 
     	<b><u><a href = "/login">Become a seller.</a></u></b>
     {% endif %}
-
 </div>
 {% endblock %}
 
@@ -109,13 +107,4 @@
     mymap.on('locationfound', onLocationFound);
     mymap.on('locationerror', onLocationError);
 </script>   
-<script>
-    function start_order(seller_id) 
-    {
-        $.post('/start_order/', 'id='+seller_id+'&location='+customer_location)
-        .success(function(data){
-          $('#order_div').html(data);
-        });
-    }
-</script>
 {% endblock %}

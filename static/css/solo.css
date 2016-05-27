@@ -1,0 +1,9 @@
+.item-thumbnail {
+	width: 92px;
+}
+
+.disabled {
+    pointer-events: none;
+    /*cursor: default;*/
+    opacity: 0.6;
+}

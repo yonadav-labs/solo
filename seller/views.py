@@ -88,6 +88,7 @@ def start_order(request):
     initial_data = model_to_dict(seller)
     #initial_data['address'] = address
     initial_data['address'] = location
+    # initial_data['distance'] = seller.distance.mi
 
     form = OrderForm(initial=initial_data)
 
@@ -162,7 +163,7 @@ def seller(request):
             seller.picture = form.cleaned_data['picture']
             seller.description = form.cleaned_data['description']
             seller.min_order_amount = form.cleaned_data['min_order_amount']
-            seller.license_number = form.cleaned_data['license_number']
+            seller.permit_number = form.cleaned_data['permit_number']
             seller.license_exp = form.cleaned_data['license_exp']
             seller.save()
 

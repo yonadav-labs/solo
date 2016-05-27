@@ -12,7 +12,7 @@ class AddressForm(forms.Form):
 class SellerForm(forms.ModelForm):
     class Meta:
         model = Seller
-        fields = ['first_name', 'email', 'address', 'phone', 'radius', 'open_hour', 'close_hour', 'item', 'unit_price', 'picture', 'description', 'min_order_amount', 'license_number', 'license_exp', 'operating_days']		
+        fields = ['first_name', 'email', 'address', 'phone', 'radius', 'open_hour', 'close_hour', 'item', 'unit_price', 'picture', 'description', 'min_order_amount', 'permit_number', 'license_exp', 'operating_days']		
         widgets = {
             'first_name': forms.TextInput(
                 attrs={'readonly': True, 'class': 'form-control'}
@@ -44,7 +44,10 @@ class SellerForm(forms.ModelForm):
             'description': forms.TextInput(
                 attrs={'class': 'form-control'}
             ),
-            'license_number': forms.TextInput(
+            'min_order_amount': forms.TextInput(
+                attrs={'class': 'form-control'}
+            ),
+            'permit_number': forms.TextInput(
                 attrs={'class': 'form-control'}
             ),
             'license_exp': forms.TextInput(
@@ -55,9 +58,10 @@ class SellerForm(forms.ModelForm):
             ),
         }
         labels = {
-            'first_name': 'Name',
+            'first_name': 'Business Name',
             'license_exp': 'License Expiration',
             'unit_price': 'Unit Price in Cents',
+            'min_order_amount': 'Min Order Quantity of Units',
         }
 	
 #################################################################################
@@ -75,9 +79,12 @@ class SellerForm(forms.ModelForm):
 class OrderForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Name')
     email = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Email')
+    phone = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Phone')
+    distance = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Distance Away')
     address = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'required': True, 'class': 'form-control'}), label='Customer Location')
     unit_price = forms.IntegerField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label="Unit Price in Cents")
     min_order_amount = forms.FloatField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label="Min. Quantity of Units")	
+    permit_number = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'required': True, 'class': 'form-control'}))
     quantity = forms.FloatField(widget=forms.NumberInput(attrs={'required': True, 'class': 'form-control'}), label="Quantity of Units")
     buyer_name = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}), label="Buyer Name")
     buyer_phone = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}),label="Buyer Phone Number")

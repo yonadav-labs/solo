@@ -28,7 +28,7 @@ class Seller(AbstractUser):
 	picture = normal_models.FileField(blank=True, null=True)
 	description = normal_models.TextField(blank=True, null=True)
 	min_order_amount = normal_models.IntegerField(default=1)
-	license_number = normal_models.CharField(max_length=50, default='234523525342')
+	permit_number = normal_models.CharField(max_length=50, default='234523525342')
 	license = normal_models.TextField(blank=True, null=True)
 	license_exp = normal_models.DateField(blank=True, null=True)
 	operating_days = normal_models.CharField(max_length=100, blank=True, null=True) # how does this work? How do we select M-F and times for each day. How does Seller go on vacation and take a break or set status to "on-hold" for a period of time? How do we use this to show sellers to customers when they query based on location etc.?
