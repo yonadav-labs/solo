@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.forms.models import model_to_dict
 from django.conf import settings
@@ -54,26 +55,25 @@ def home(request):
 
 def buy(request):    
     if request.POST:
-        form = AddressForm(request.POST)
-        if form.is_valid():
-            location2 = form.cleaned_data['address']
-            sellers = get_sellers(location2)
-            lnglat = location2.split(' ')
-            location1 = '%s,%s' % (lnglat[1], lnglat[0])
+        location2 = request.POST['address']
+        sellers = get_sellers(location2)
+        lnglat = location2.split(' ')
+        location1 = '%s,%s' % (lnglat[1], lnglat[0])
+        map_rendered = request.POST['map_rendered']
     else:
-        form = AddressForm()
         ip = get_client_ip(request) # this seems to work only onClick events
         ip = '142.33.135.231' # this is the location at which the map initializes the location, this needs to be set to the ip address of the user.
         lat, lon = get_client_location_with_ip(ip)
         location1 = '%f, %f' % (lat, lon)
         location2 = '%f %f' % (lon, lat)    # geopy location
         sellers = get_sellers(location2)
+        map_rendered = None
 
     return render(request, 'buy.html', {
-        'form': form, 
         'sellers': sellers, 
         'location1': location1, 
-        'location2': location2
+        'location2': location2,
+        'map_rendered': map_rendered
     })
 
 @csrf_exempt
@@ -88,6 +88,7 @@ def start_order(request):
     initial_data = model_to_dict(seller)
     #initial_data['address'] = address
     initial_data['address'] = location
+    # initial_data['distance'] = seller.distance.mi
 
     form = OrderForm(initial=initial_data)
 
@@ -145,7 +146,7 @@ def about(request):
     return render(request, 'about.html')    
 
 # login required for creating new seller account
-@login_required(login_url='/login')
+@login_required(login_url='/login/')
 def seller(request):
     seller = Seller.objects.get(username=request.user)
 
@@ -162,8 +163,8 @@ def seller(request):
             seller.picture = form.cleaned_data['picture']
             seller.description = form.cleaned_data['description']
             seller.min_order_amount = form.cleaned_data['min_order_amount']
-            seller.license_number = form.cleaned_data['license_number']
-            seller.license_exp = form.cleaned_data['license_exp']
+            seller.permit_number = form.cleaned_data['permit_number']
+            seller.permit_exp = form.cleaned_data['permit_exp']
             seller.save()
 
             return HttpResponseRedirect('/login/')

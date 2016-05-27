@@ -2,57 +2,74 @@
 {% load staticfiles %} 
 
 {% block main %}
+<<<<<<< HEAD
 <div class="container">
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     <div class="row">
         <div class="col-md-8">
             <div id="mapid" style="height: 400px; margin-bottom: 30px;"></div>
         </div>
+=======
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<div class="row">
+{% if not map_rendered %}
+    <div class="col-md-8" id="map_wrapper">
+        <h4>Select your location on the Map:</h4>
+        <div id="mapid" style="height: 200px; margin-bottom: 30px;"></div>
+>>>>>>> 484f18fd437ffed979c5f26f4869d73568aa3526
     </div>
-    <form method="post" action="./">
+{% endif %}
+    <form method="post">
         {% csrf_token %}
         <input id="id_address" name="address" value="{{ location2 }}" type="hidden">
+        <input name="map_rendered" value="1" type="hidden">
     </form>
 
-
     {% if sellers %}
+<<<<<<< HEAD
         <h3>Select a seller:</h3>
         <div class="col-md-7">
             {% for seller in sellers %}
                 <div class="row">
                     <a href="javascript::void(0);" onclick="start_order({{ seller.id }});"><img src="/static/media/{{ seller.picture }}" class="img-responsive"><b>{{ seller.first_name }}</b>: Distance: {{ seller.distance.mi }} Miles away.</a>
+=======
+        <div class="col-md-7" id="seller_wrapper">
+            <h4>Select a nearby Seller:</h4>
+            {% for seller in sellers %}	
+				<div class="media">
+					<div class="media-left">
+						<a href="javascript:void(0);" onclick="start_order({{ seller.id }});">
+							<img src="/static/media/{{ seller.picture }}" class="item-thumbnail img-thumbnail" >
+						</a>
+					</div>
+						<div class="media-body">
+							<b class="media-heading">{{ seller.first_name }}</b>
+                            <p>Distance: {{ seller.distance.mi|floatformat:2 }} Miles away.</p>
+							<p> {{seller.item}} {{seller.description}}  </p>
+						</div>
+>>>>>>> 484f18fd437ffed979c5f26f4869d73568aa3526
                 </div>
             {% endfor %}
-        <div id="order_div"></div>
+        </div>
+        <div class="col-md-7">
+            <div id="order_div"></div>
         </div>
     {% else %}
         <h3>Select your location on the Map:</h3> 
     	<li><b><u><a href = "/login">Apply Now.</a></u></b></li>
     {% endif %}
-
 </div>
 {% endblock %}
 
 {% block javascript %}
+<script type="text/javascript">
+    var customer_location = '{{ location1 }}';    
+</script>
+{% if not map_rendered %}
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 <script>
-    // execute on load
-    var customer_location = '{{ location1 }}';
-
     var mymap = L.map('mapid').setView([{{ location1 }}], 11);
 
-    // get location on map initialize
-    function onLocationFound(e) {
-    	// get current location
-    	$('#id_address').val(e.latlng.lng+' '+e.latlng.lat);
-    	customer_location = e.latlng.lat+','+e.latlng.lng; 
-    }
-    	
-    function onLocationError(e) {
-    	// alert(e.message);
-    }
-
-    	
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
         maxZoom: 20,
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
@@ -84,23 +101,12 @@
     		.setLatLng(e.latlng);
     	
     	// execute on load of new clicked location
-    	$(document).ready(function () {
-    		window.document.forms[0].submit();
-    	});
+		window.document.forms[0].submit();    
 
+        $('#map_wrapper').hide();
     }
 
     mymap.on('click', onMapClick);
-    mymap.on('locationfound', onLocationFound);
-    mymap.on('locationerror', onLocationError);
 </script>   
-<script>
-    function start_order(seller_id) 
-    {
-        $.post('/start_order/', 'id='+seller_id+'&location='+customer_location)
-        .success(function(data){
-          $('#order_div').html(data);
-        });
-    }
-</script>
+{% endif %}
 {% endblock %}
