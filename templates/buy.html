@@ -2,6 +2,14 @@
 {% load staticfiles %} 
 
 {% block main %}
+
+<div class="container">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <div class="row">
+        <div class="col-md-8">
+            <div id="mapid" style="height: 200px; margin-bottom: 30px;"></div>
+        </div>
+
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 <div class="row">
 {% if not map_rendered %}
@@ -17,6 +25,13 @@
     </form>
 
     {% if sellers %}
+
+        <h3>Select a seller:</h3>
+        <div class="col-md-7">
+            {% for seller in sellers %}
+                <div class="row">
+                    <a href="javascript::void(0);" onclick="start_order({{ seller.id }});"><img src="/static/media/{{ seller.picture }}" class="img-responsive"><b>{{ seller.first_name }}</b>: Distance: {{ seller.distance.mi }} Miles away.</a>
+			
         <div class="col-md-7" id="seller_wrapper">
             <h4>Select a nearby Seller:</h4>
             {% for seller in sellers %}	
@@ -31,22 +46,19 @@
                             <p>Distance: {{ seller.distance.mi|floatformat:2 }} Miles away.</p>
 							<p> {{seller.item}} {{seller.description}}  </p>
 						</div>
+
                 </div>
-				<nav>
-				  <ul class="pager">
-					<li><a href="#">Previous</a></li>
-					<li><a href="#">See More</a></li>
-				  </ul>
-				</nav>
             {% endfor %}
         </div>
+		{% endfor %}
         <div class="col-md-7">
             <div id="order_div"></div>
         </div>
     {% else %}
-        <h4>No sellers are found nearby.</h4> 
-    	<b><u><a href = "/login">Become a seller.</a></u></b>
+        <h3>Select your location on the Map:</h3> 
+    	<li><b><u><a href = "/login">Apply Now.</a></u></b></li>
     {% endif %}
+	
 </div>
 {% endblock %}
 
