@@ -22,7 +22,7 @@ STRIPE_KEYS = {
 #=======
 # # returns error: "The destination parameter cannot be set to your own account" 
 # # So these are the values for my allauth Stripe Connect Account. I set up a separate one for a new seller. 
-# STRIPE_KEYS = {
+#STRIPE_KEYS = {
 #     'API_KEY': 'sk_test_QqlkG4EYvRku2zvzrZRksmwJ',
 #     'PUBLIC_KEY': 'pk_test_egZpQehcB86xWgcr0n1eZluM',
 #     'CLIENT_ID': 'ca_8IFn5chY6QPiJ4ayx9roSbAqrIA5tZgx',
@@ -117,7 +117,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
 #<<<<<<< HEAD
 #=======
-         #'NAME': 'solo2',
+        #'NAME': 'solo2',
 #>>>>>>> 484f18fd437ffed979c5f26f4869d73568aa3526
         'NAME': 'solo',
         'USER': 'postgres',
