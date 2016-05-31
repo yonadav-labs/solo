@@ -1,0 +1,20 @@
+EC2 Web Server Instance: Windows Server 2012 R2 64 bit
+1. Public DNS: ec2-54-153-78-109.us-west-1.compute.amazonaws.com
+2. User name: Administrator
+3. Connection: Administrator@ec2-54-153-78-109.us-west-1.compute.amazonaws.com
+4. Password: u83jiEVT;i?
+
+
+RDS Database Server Instance: PostgreSQL 9.4.7
+1. Username: postgres
+2. Password: nekner16
+3. Database Name: Solo
+4. 608 MB memory
+5. 4,660 MG storage
+6. Port 5432
+
+
+
+
+
+ 
