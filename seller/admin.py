@@ -4,3 +4,4 @@ from .models import *
 
 normal_admin.site.register(Seller)
 admin.site.register(Sale)
+admin.site.register(WeekDay)

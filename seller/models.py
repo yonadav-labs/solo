@@ -11,18 +11,28 @@ from geopy.exc import GeocoderQueryError
 
 from urllib2 import URLError
 
-# for phone number validator
-from django.core.validators import RegexValidator # source: http://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
+
+Estimated_Order_to_Delivery = (
+	(1, '1 hour'),
+	(2, 'Same Day'),
+	(3, 'Next Day'),
+	(4, 'NA'))
+
+
+class WeekDay(normal_models.Model):
+    name = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Seller(AbstractUser):
 	address = normal_models.CharField(max_length=100)
 	location = models.PointField(u"longitude/latitude", geography=True, blank=True, null=True)
-	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-	phone = models.CharField(max_length=12 ,validators=[phone_regex], blank=True) # validators should be a list
+	phone = models.CharField(max_length=20, null=True, blank=True) # validators should be a list
 	radius = normal_models.FloatField(default=10)	# in miles
-	open_hour = normal_models.IntegerField(default=8)
-	close_hour = normal_models.IntegerField(default=6)
+	open_hour = normal_models.TimeField(default='08:00:00')
+	close_hour = normal_models.TimeField(default='18:30:00')
 	item = normal_models.CharField(max_length=50)
 	unit_price = normal_models.IntegerField(blank=True, null=True)		# price in cent
 	picture = normal_models.FileField(blank=True, null=True)
@@ -31,7 +41,8 @@ class Seller(AbstractUser):
 	permit_number = normal_models.CharField(max_length=50, default='234523525342')
 	license = normal_models.TextField(blank=True, null=True)
 	permit_exp = normal_models.DateField(blank=True, null=True)
-	operating_days = normal_models.CharField(max_length=100, blank=True, null=True) # how does this work? How do we select M-F and times for each day. How does Seller go on vacation and take a break or set status to "on-hold" for a period of time? How do we use this to show sellers to customers when they query based on location etc.?
+	estimated_delivery = normal_models.IntegerField(choices=Estimated_Order_to_Delivery, default=1)
+	operating_days = normal_models.ManyToManyField(WeekDay, related_name='operating_days')
 
 	objects = UserManager()
 	gis = models.GeoManager()
@@ -52,29 +63,6 @@ class Seller(AbstractUser):
 
 		super(Seller, self).save()        
 
-# open hours 
-# reference: http://stackoverflow.com/questions/12216771/django-objects-for-business-hours
-WEEKDAYS = [
-  (1, ("Monday")),
-  (2, ("Tuesday")),
-  (3, ("Wednesday")),
-  (4, ("Thursday")),
-  (5, ("Friday")),
-  (6, ("Saturday")),
-  (7, ("Sunday")),
-]
-
-
-class OpeningHours(models.Model):
-	store = models.ForeignKey(Seller)
-	weekday = models.IntegerField(
-        choices=WEEKDAYS,
-        unique=True )
-	from_hour = models.TimeField()
-	to_hour = models.DurationField()
-	
-	class Meta:
-		unique_together=(('weekday', 'store',),)
 		
 
 class Sale(normal_models.Model):
@@ -84,4 +72,7 @@ class Sale(normal_models.Model):
 	delivery_address = normal_models.CharField(max_length=500)
 	buyer_name = normal_models.CharField(max_length=50)
 	buyer_phone = normal_models.CharField(max_length=20)
+
+	def __unicode__(self):
+		return self.seller.name + ':' + self.buyer_name
 	

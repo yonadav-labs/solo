@@ -26,6 +26,8 @@
 </form>
 
 <script>
+  $('#id_quantity').attr('min', {{form.min_order_amount.value}});
+
   var handler = StripeCheckout.configure({
     key: '{{ key }}',
     locale: 'auto',

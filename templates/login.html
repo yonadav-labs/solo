@@ -10,10 +10,6 @@
 	  <h2>Hello, {{ user.get_full_name }}. </h2>
 	  <p>We're happy to be working with you.</p>						  
 	{% else %}
-<<<<<<< HEAD
-	  <a href="{% provider_login_url 'stripe' %}"><img src="/static/img/blue-on-light.png"></a>
-	{% endif %} 
-=======
 		<div style="text-align:center">
 		  	<a id='connect_stripe' href="{% provider_login_url 'stripe' %}" class="disabled"><img src="/static/img/blue-on-light.png"></a>
 			<div style="padding-top: 20px;"><input type="checkbox" onclick="agree_terms(this);"> Agree to <a href='#'>Terms of Service and Privacy</a></div>
@@ -21,5 +17,4 @@
 	{% endif %} 
   </div>
 </div>	
->>>>>>> 484f18fd437ffed979c5f26f4869d73568aa3526
 {% endblock %}

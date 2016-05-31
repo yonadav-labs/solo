@@ -12,12 +12,26 @@
 <form method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
     {% csrf_token %}
   {% for elem in form %}
-  <div class="form-group">
-    <label class="control-label col-sm-3" for="id_{{elem.name}}">{{elem.label}}:</label>
-    <div class="col-sm-6">
-      	{{ elem }} 
-    </div>
-  </div>	
+    {% if elem.name == 'open_hour' %}
+      <input type="hidden" name="{{elem.name}}" value="{{elem.value|time:"H:i"}}" id="id_{{elem.name}}">
+      <div class="col-sm-7 form-group">
+        <div id="time-range">
+            <p><b>Service Time: <span class="slider-time">{{ form.open_hour.value }}</span> - <span class="slider-time2">{{ form.close_hour.value }}</span></b></p>
+            <div class="sliders_step1">
+                <div id="slider-range"></div>
+            </div>
+        </div>
+      </div>
+    {% elif elem.name == 'close_hour' %}
+      <input type="hidden" name="{{elem.name}}" value="{{elem.value|time:"H:i"}}" id="id_{{elem.name}}">
+    {% else %}
+      <div class="form-group">
+        <label class="control-label col-sm-3" for="id_{{elem.name}}">{{elem.label}}:</label>
+        <div class="col-sm-6">
+            {{ elem }} 
+        </div>
+      </div>  
+    {% endif %}
   {% endfor %}
 
   <div class="form-group">
@@ -28,4 +42,8 @@
 </form>
 </div>
 </div>
+<script type="text/javascript">
+  var open_hour = {{ open_hour }};
+  var close_hour = {{ close_hour }};
+</script>
 {% endblock %}
