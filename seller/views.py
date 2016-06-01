@@ -191,3 +191,17 @@ def seller(request):
     close_hour = seller.close_hour.hour * 60 + seller.close_hour.minute
 
     return render(request, 'seller.html', {'form': form, 'open_hour': open_hour, 'close_hour': close_hour })
+
+	
+def handler404(request):
+	response = render_to_response('404.html', {}, context_instance=RequestContext(request))
+	response.status_code = 404
+	return response
+	
+def handler500(request):
+	response = render_to_response('500.html', {}, context_instance=RequestContext(request))
+	response.status_code=500
+	return response
+	
+	
+	
