@@ -20,7 +20,7 @@
 
     {% if sellers %}			
         <div class="col-md-7" id="seller_wrapper">
-            <h4>Select a nearby Seller:</h4>
+            <h3>Select a nearby Seller:</h3>
             {% for seller in sellers %}	
 				<div class="media">
 					<div class="media-left">
@@ -31,7 +31,7 @@
 						<div class="media-body">
 							<b class="media-heading">{{ seller.first_name }}</b>
                             <p>Distance: {{ seller.distance.mi|floatformat:2 }} Miles away.</p>
-							<p> {{seller.item}} {{seller.description}}  </p>
+							<p> {{seller.item}} {{seller.description}} </p>
 						</div>
 
                 </div>
@@ -41,9 +41,11 @@
             <div id="order_div"></div>
         </div>
     {% else %}
-        <h3>Select your location on the Map:</h3> 
-    	<li><b><u><a href = "/login">Apply Now.</a></u></b></li>
-    {% endif %}
+		<div class="col-md-7">
+        <h4>We need Sellers in your area:</h4> 
+    	<b><u><a href = "/login">Begin Selling Now</a></u></b>
+		</div>
+	{% endif %}
 	
 </div>
 {% endblock %}
@@ -94,6 +96,7 @@
     }
 
     mymap.on('click', onMapClick);
-</script>   
+</script> 
+ 
 {% endif %}
 {% endblock %}
