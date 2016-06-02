@@ -115,8 +115,8 @@ def charge(request):
     if form.is_valid():
         seller_email = form.cleaned_data['email']
         seller = Seller.objects.get(email=seller_email)
-        price_in_cents = int(seller.unit_price * float(form.cleaned_data['quantity']))
-
+        #price_in_cents = int(seller.unit_price * float(form.cleaned_data['quantity']))
+		price_in_cents = (int(seller.unit_price) * 100) * float(form.cleaned_data['quantity'])) # convert decimal to cents
         card = request.POST.get('stripeToken')
         stripe.api_key = settings.STRIPE_KEYS['API_KEY']
         stripe_account_id = SocialAccount.objects.get(user__id=seller.id, provider='stripe').uid
