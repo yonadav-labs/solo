@@ -45,7 +45,7 @@
     if (form.valid()) {
         var quantity = parseFloat($('#id_quantity').val());
         var unit_price = parseInt($('#id_unit_price').val());
-        var amount = quantity * unit_price;
+        var amount = quantity * unit_price * 100;
         console.log(amount);
 
         handler.open({

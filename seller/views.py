@@ -111,44 +111,42 @@ def start_order(request):
 
 
 def charge(request):
-    form = OrderForm(request.POST)
-    if form.is_valid():
-        seller_email = form.cleaned_data['email']
-        seller = Seller.objects.get(email=seller_email)
-        #price_in_cents = int(seller.unit_price * float(form.cleaned_data['quantity']))
-		price_in_cents = (int(seller.unit_price) * 100) * float(form.cleaned_data['quantity'])) # convert decimal to cents
-        card = request.POST.get('stripeToken')
-        stripe.api_key = settings.STRIPE_KEYS['API_KEY']
-        stripe_account_id = SocialAccount.objects.get(user__id=seller.id, provider='stripe').uid
-
-        charge = stripe.Charge.create(
-            amount=price_in_cents,
-            currency="usd",
-            source=card,
-            destination=stripe_account_id,
-            application_fee = int(price_in_cents * 0.30),
-            description='Thank you for your purchase!'            
-        )
-
-        sale = Sale()
-        sale.seller = seller
-        sale.quantity = float(form.cleaned_data['quantity'])
-        sale.delivery_address = form.cleaned_data['address']
-        sale.buyer_name = form.cleaned_data['buyer_name']
-        sale.buyer_phone = form.cleaned_data['buyer_phone']
-        sale.charge_id = charge.id
-        sale.save()
-
-        # send email
+	form = OrderForm(request.POST)
+	if form.is_valid():
+		seller_email = form.cleaned_data['email']
+		seller = Seller.objects.get(email=seller_email)
+		price_in_cents = int(seller.unit_price * 100 * float(form.cleaned_data['quantity']))
+		card = request.POST.get('stripeToken')
+		stripe.api_key = settings.STRIPE_KEYS['API_KEY']
+		stripe_account_id = SocialAccount.objects.get(user__id=seller.id, provider='stripe').uid
+		
+		charge = stripe.Charge.create(
+			amount=price_in_cents,
+			currency="usd",
+			source=card,
+			destination=stripe_account_id,
+			application_fee = int(price_in_cents * 0.30),
+			description='Thank you for your purchase!'
+		)
+		
+		sale = Sale()
+		sale.seller = seller
+		sale.quantity = float(form.cleaned_data['quantity'])
+		sale.delivery_address = form.cleaned_data['address']
+		sale.buyer_name = form.cleaned_data['buyer_name']
+		sale.buyer_phone = form.cleaned_data['buyer_phone']
+		sale.charge_id = charge.id
+		sale.save()
+		
+		# send email
         email_subject = 'Order Confirmation'    
         email_body = "Dear %s.\n\nYou've got an order from Customer: %s \nAddress: %s\nPhone Number: %s\nQuantity: %.2f\nPlease confirm the order and fulfill it.\n\nThank you." % (seller.first_name, sale.buyer_name, sale.delivery_address, sale.buyer_phone, sale.quantity)
         send_mail(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [seller.email], fail_silently=False)
 
         return render(request, 'order_success.html', {'seller': seller})
-
-    return render(request, 'order.html', {
-        'form': form, 
-        'key': settings.STRIPE_KEYS['PUBLIC_KEY']
+	return render(request, 'order.html', {
+        'form': form,
+		'key': settings.STRIPE_KEYS['PUBLIC_KEY']
     })
 
 def login(request):

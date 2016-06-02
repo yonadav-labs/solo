@@ -34,9 +34,8 @@ class Seller(AbstractUser):
 	open_hour = normal_models.TimeField(default='08:00:00')
 	close_hour = normal_models.TimeField(default='18:30:00') #?? What if they are open from midnight to 3 am? How do we allow them to have hours between days? Also, how about if they have different hours for different days? Thoughts?
 	item = normal_models.CharField(max_length=50)
-	#unit_price = normal_models.IntegerField(blank=True, null=True)		# price in cent
-	unit_price = normal_models.DecimalField(blank=True, null=False, default=00.00, decimal_places=2 ) # price in cents
-	min_order = normal.models.DecimalField(decimal_places=2) # unit_price multiplied by min_order_amount 
+	unit_price = normal_models.DecimalField(blank=True, null=False, default=00.00, decimal_places=2, max_digits=6 ) # price in cents
+	min_order = normal_models.DecimalField(default=1.00, decimal_places=2, max_digits=6) # unit_price multiplied by min_order_amount 
 	picture = normal_models.FileField(blank=True, null=True)
 	description = normal_models.TextField(blank=True, null=True)
 	min_order_amount = normal_models.IntegerField(default=1)
@@ -53,6 +52,7 @@ class Seller(AbstractUser):
 		return self.username
 
 	def save(self, **kwargs):
+		min_order = self.unit_price * self.min_order_amount * 100
 		address = self.address.encode('utf-8')
 		geocoder = GoogleV3()
 		try:
