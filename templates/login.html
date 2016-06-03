@@ -11,10 +11,13 @@
 	  <p>We're happy to be working with you.</p>						  
 	{% else %}
 		<div style="text-align:center">
-  <div class="inner cover">
-    <p class="lead">Welcome. We are a network of mostly Cottage Food Businesses who prepare and deliver baked goods locally. If you're an approved Cottage Food Business, we want you to join us. If you're a consumer, we want you to order something delicious.</p>
-  </div>
+			  <div class="inner cover">
+				<p class="lead">If you're a Cottage Food Business, we want you to join us.</p> 
+				<p class="lead">We introduce local customers to you, provide a secure payment and sales tax platform, and you focus on serving delicious treats.</p>
+				
+		<div style="padding-top: 20px;">
 		  	<a id='connect_stripe' href="{% provider_login_url 'stripe' %}" class="disabled"><img src="/static/img/blue-on-light.png"></a>
+		</div>
 			<div style="padding-top: 20px;"><input type="checkbox" onclick="agree_terms(this);"> Agree to <a href='#'>Terms of Service and Privacy</a></div>
 		</div>
 	{% endif %} 
