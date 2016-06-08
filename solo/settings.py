@@ -14,6 +14,7 @@ PROJECT_ROOT = BASE_DIR = os.path.dirname(PROJECT_APP_PATH)
 # }
 
 
+
 STRIPE_KEYS = {
 	'API_KEY': 'sk_test_QqlkG4EYvRku2zvzrZRksmwJ',
 	'PUBLIC_KEY': 'pk_test_egZpQehcB86xWgcr0n1eZluM',
@@ -57,7 +58,7 @@ INSTALLED_APPS = [
 	'allauth.account',
 	'allauth.socialaccount',
 	'allauth.socialaccount.providers.stripe',
-
+	
 ]
 
 # add login redirect

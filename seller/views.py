@@ -109,6 +109,15 @@ def start_order(request):
         'key': settings.STRIPE_KEYS['PUBLIC_KEY']
     })
 
+#def tax(request):
+# Avalara TaxRatesAPI key. Free and limits requests to 15 per hour 
+# key = 'RjCqBdo2dxlGbTNWyo3uxsf8xv+T/teMcaL9TN6DhNy49DmC1nzbJ7QFIxjb6IjTkcrWVxo186CUhB/zs+AC4A=='
+# examples:
+# https://taxrates.api.avalara.com:443/address?country=usa&state=wa&city=seattle&postal=98104&street=123+3rd+ave&apikey=RjCqBdo2dxlGbTNWyo3uxsf8xv%2BT%2FteMcaL9TN6DhNy49DmC1nzbJ7QFIxjb6IjTkcrWVxo186CUhB%2Fzs%2BAC4A%3D%3D
+#
+#https://taxrates.api.avalara.com:443/postal?country=usa&postal=98104&apikey=RjCqBdo2dxlGbTNWyo3uxsf8xv%2BT%2FteMcaL9TN6DhNy49DmC1nzbJ7QFIxjb6IjTkcrWVxo186CUhB%2Fzs%2BAC4A%3D%3D	
+#
+# resources: http://taxratesapi.avalara.com/docs
 
 def charge(request):
 	form = OrderForm(request.POST)
