@@ -115,7 +115,7 @@ def get_tax(address, price):
 	'''
 	calculate tax from address
 	accept only usa now
-	Avalara TaxRatesAPI key. Free and limits requests to 15 per hour 
+	Avalara TaxRatesAPI key. Free and limits requests to 15 per minute 
 	resources: http://taxratesapi.avalara.com/docs	
 	'''
 	tax = 0
