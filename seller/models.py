@@ -16,7 +16,9 @@ Estimated_Order_to_Delivery = (
 	(1, '1 hour'),
 	(2, 'Same Day'),
 	(3, 'Next Day'),
-	(4, 'NA'))
+	(4, 'Please Contact'),
+	(5, 'Unknown')
+	)
 
 
 class WeekDay(normal_models.Model):
