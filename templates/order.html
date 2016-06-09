@@ -7,11 +7,6 @@
     <input type="hidden" name="stripeToken" id="stripe_token">
   {% for elem in form %}
   <div class="form-group">
-  {% if elem.name == 'quantity' %}
-    <div class="col-sm-9">
-      <div class="well">Please make sure to provide following information!</div>
-    </div>
-  {% endif %}
     <label class="control-label col-sm-3" for="id_{{elem.name}}">{{elem.label}}:</label>
     <div class="col-sm-6">
       	{{ elem }} 
@@ -44,8 +39,8 @@
     // Open Checkout with further options:
     if (form.valid()) {
         var quantity = parseFloat($('#id_quantity').val());
-        var unit_price = parseInt($('#id_unit_price').val());
-        var amount = quantity * unit_price;
+        var unit_price = parseFloat($('#id_unit_price').val().substring(1));
+        var amount = quantity * unit_price * 100;
         console.log(amount);
 
         handler.open({

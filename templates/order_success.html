@@ -6,17 +6,6 @@
 <div class="site-wrapper">
   <div class="site-wrapper-inner">
     <div class="cover-container">
-      <div class="masthead clearfix">
-        <div class="inner">
-          <h3 class="masthead-brand"><a href="about">Solo</a></h3>
-          <nav>
-            <ul class="nav masthead-nav">
-    				<li><a href="/buy">Buy</a></li>
-    				<li><a href="/about">About</a></li>
-            </ul>
-          </nav>
-        </div>
-      </div>
       <div class="inner cover">
   			<p> Thanks for your purchase. Your order will be fulfilled by {{seller.first_name}}. </p>
   			<p> You can contact them at {{ seller.phone }}.</p>
@@ -24,4 +13,13 @@
     </div>
   </div>
 </div>
+
+<style>.ig-b- { display: inline-block; }
+.ig-b- img { visibility: hidden; }
+.ig-b-:hover { background-position: 0 -60px; } .ig-b-:active { background-position: 0 -120px; }
+.ig-b-v-24 { width: 137px; height: 24px; background: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24.png) no-repeat 0 0; }
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+.ig-b-v-24 { background-image: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24@2x.png); background-size: 160px 178px; } }</style>
+<a href="https://www.instagram.com/getfreshbaked/?ref=badge" class="ig-b- ig-b-v-24"><img src="//badges.instagram.com/static/images/ig-badge-view-24.png" alt="Instagram" /></a>
+
 {% endblock %}

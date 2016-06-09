@@ -17,15 +17,14 @@ function agree_terms(obj)
 		$('#connect_stripe').removeClass('disabled');
 }
 
-$(function() {
+$(function(){
 	$( "#id_permit_exp" ).datepicker({
 		dateFormat: "yy-mm-dd",
 		defaultDate: +30,
 		minDate: 1
 	});
-});
 
-$(function(){
+	if (typeof open_hour != 'undefined') {
 	$("#slider-range").slider({
 		range: true,
 		min: 0,
@@ -85,5 +84,5 @@ $(function(){
 			$('.slider-time2').html(hours2 + ':' + minutes2);
 		}
 	});
-
+	}
 });

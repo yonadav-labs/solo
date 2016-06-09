@@ -6,12 +6,10 @@
 <div class="container">
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 <div class="row">
-{% if not map_rendered %}
     <div class="col-md-8" id="map_wrapper">
         <h4>Select your location on the Map:</h4>
         <div id="mapid" style="height: 200px; margin-bottom: 30px;"></div>
     </div>
-{% endif %}
     <form method="post">
         {% csrf_token %}
         <input id="id_address" name="address" value="{{ location2 }}" type="hidden">
@@ -20,33 +18,31 @@
 
     {% if sellers %}			
         <div class="col-md-7" id="seller_wrapper">
-            <h4>Select a nearby Seller:</h4>
+            <h3>Select a nearby Seller:</h3>
             {% for seller in sellers %}	
+                <a href="javascript:void(0);" onclick="start_order({{ seller.id }}, {{ seller.distance.mi|floatformat:2 }});">
 				<div class="media">
 					<div class="media-left">
-						<a href="javascript:void(0);" onclick="start_order({{ seller.id }}, {{ seller.distance.mi|floatformat:2 }});">
-							<img src="/static/media/{{ seller.picture }}" class="item-thumbnail img-thumbnail" >
-						</a>
+						<img src="/static/media/{{ seller.picture }}" class="item-thumbnail img-thumbnail" >
 					</div>
-						<div class="media-body">
-							<b class="media-heading">{{ seller.first_name }}</b>
-                            <p>Distance: {{ seller.distance.mi|floatformat:2 }} Miles away.</p>
-							<p> {{seller.item}} {{seller.description}}  </p>
-						</div>
-
+					<div class="media-body">
+						<b class="media-heading">{{ seller.first_name }}</b>
+                        <p>Distance: {{ seller.distance.mi|floatformat:2 }} Miles away.</p>
+						<p> {{seller.item}} {{seller.description}} </p>
+					</div>    
                 </div>
+                </a>
             {% endfor %}
         </div>
         <div class="col-md-7">
             <div id="order_div"></div>
         </div>
-    {% else %}        
-        <div class="col-md-5">
-            <h3>Select your location on the Map:</h3> 
-            <a href = "/login"><b>Apply Now</b></a>
-        </div>
-    {% endif %}
-	
+    {% else %}
+		<div class="col-md-7">
+            <h4>We need Sellers in your area:</h4> 
+        	<b><u><a href = "/login">Begin Selling Now</a></u></b>
+		</div>
+	{% endif %}
 </div>
 {% endblock %}
 
@@ -54,7 +50,6 @@
 <script type="text/javascript">
     var customer_location = '{{ location1 }}';    
 </script>
-{% if not map_rendered %}
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 <script>
     var mymap = L.map('mapid').setView([{{ location1 }}], 11);
@@ -92,10 +87,11 @@
     	// execute on load of new clicked location
 		window.document.forms[0].submit();    
 
-        $('#map_wrapper').hide();
+        // $('#map_wrapper').hide();
     }
 
     mymap.on('click', onMapClick);
-</script>   
-{% endif %}
+</script> 
+ 
+
 {% endblock %}

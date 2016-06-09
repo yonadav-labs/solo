@@ -4,8 +4,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solo</title> <!-- what shows up in the tabe-->
-
+    <title>GetFreshBaked</title> <!-- what shows up in the tabe-->
+	<link rel="shortcut icon" href="/static/img/logo2.png" type="image/png"> <!-- a 16 x 16 png image -->
   	<script src="/static/js/jquery.js"></script>
     <script src="/static/js/jquery-ui.js"></script>
   	<script src="/static/js/bootstrap.min.js"></script>
@@ -27,7 +27,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">Solo</a>
+        <a class="navbar-brand" href="/"><img src="/static/img/logo.png" alt="GetFreshBaked"></a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
@@ -38,8 +38,6 @@
         <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
             <li><a href="/logout/">Logout <span class="glyphicon glyphicon-user"></span></a></li>
-          {% else %}
-            <li><a href="/login/"><span class="glyphicon glyphicon-user"></span> Login</a></li>
           {% endif %}
         </ul>
       </div>
