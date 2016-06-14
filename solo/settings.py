@@ -99,20 +99,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'solo.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.contrib.gis.db.backends.postgis',
-		'NAME': 'solo2',
-		'USER': 'postgres',
-		'PASSWORD': 'pbn6h9E',
-	}
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -131,6 +117,15 @@ AUTH_PASSWORD_VALIDATORS = [
 	},
 ]
 
+f = os.path.join(PROJECT_APP_PATH, "local_settings.py")
+if os.path.exists(f):
+    import sys
+    import imp
+    module_name = "%s.local_settings" % PROJECT_APP
+    module = imp.new_module(module_name)
+    module.__file__ = f
+    sys.modules[module_name] = module
+    exec(open(f, "rb").read())
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
