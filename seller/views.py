@@ -74,7 +74,7 @@ def buy(request):
 		map_rendered = request.POST['map_rendered']
 	else:
 		ip = get_client_ip(request) 
-		ip = '142.33.135.231' # this is the test location on dev
+		# ip = '142.33.135.231' # this is the test location on dev
 		lat, lon = get_client_location_with_ip(ip)
 		location1 = '%f, %f' % (lat, lon)
 		location2 = '%f %f' % (lon, lat)    # geopy location
