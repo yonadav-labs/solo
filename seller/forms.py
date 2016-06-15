@@ -58,7 +58,7 @@ class SellerForm(forms.ModelForm):
 		labels = {
 			'first_name': 'Business Name',
 			'permit_exp': 'Permit Expiration',
-			'unit_price': 'Unit Price in Cents',
+			'unit_price': 'Unit Price in Dollars and Cents',
 			'min_order_amount': 'Min Order Quantity of Units',
 		}
 	

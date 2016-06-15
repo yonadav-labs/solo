@@ -85,4 +85,8 @@ $(function(){
 		}
 	});
 	}
+
+	videojs('landing-video').ready(function() {
+	    this.play();
+	});
 });
