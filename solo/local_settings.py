@@ -25,7 +25,7 @@ DATABASES = {
 ###################
 
 # Domains for public site
-ALLOWED_HOSTS = ["ec2-52-53-185-189.us-west-1.compute.amazonaws.com"] 
+ALLOWED_HOSTS = ["www.getfreshbaked.com"] 
 # These settings are used by the default fabfile.py provided.
 # Check fabfile.py for defaults.
 
@@ -37,7 +37,7 @@ FABRIC = {
     "PROJECT_NAME": "solo", 
     "GUNICORN_PORT": 8000, 
     "REPO_URL": "https://jason5001001@bitbucket.org/cflproject2016/solo.git", 
-    "HOSTS": ["52.53.185.189",],  # The IP address of your VPS
+    "HOSTS": ["54.67.42.100",],  # The IP address of your VPS
     "DOMAINS": ALLOWED_HOSTS,  # Edit domains in ALLOWED_HOSTS
     "REQUIREMENTS_PATH": "requirements.txt",  # Project's pip requirements
     "LOCALE": "en_US.UTF-8",  # Should end with ".UTF-8"
