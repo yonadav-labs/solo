@@ -112,5 +112,6 @@ $(function(){
       resizeVideoJS();
       // Then on resize call resizeVideoJS()
       window.onresize = resizeVideoJS; 
+      this.play();
     });	
 });
