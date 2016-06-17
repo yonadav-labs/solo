@@ -170,7 +170,7 @@ AUTH_USER_MODEL = 'seller.Seller'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'info@getfreshbaked.com'
-EMAIL_HOST_PASSWORD = 'password'
+EMAIL_HOST_PASSWORD = 'getfreshbakedtoday'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'info@getfreshbaked.com'
