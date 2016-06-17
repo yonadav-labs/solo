@@ -86,7 +86,7 @@ $(function(){
 	});
 	}
 
-	videojs('landing-video').ready(function() {
-	    this.play();
-	});
+	// videojs('landing-video').ready(function() {
+	//     this.play();
+	// });
 });
