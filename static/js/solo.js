@@ -93,7 +93,7 @@ $(function(){
 
 	// videojs.autoSetup();
 
-    videojs('landing-video').ready(function(){
+    // videojs('landing-video').ready(function(){
       // console.log(this.options()); //log all of the default videojs options
       
        // Store the video object
@@ -110,7 +110,7 @@ $(function(){
       // resizeVideoJS();
       // // Then on resize call resizeVideoJS()
       // window.onresize = resizeVideoJS; 
-  	  console.log('start');
-      this.play();
-    });	
+  	 //  console.log('start');
+    //   this.play();
+    // });	
 });

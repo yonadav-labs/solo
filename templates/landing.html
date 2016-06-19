@@ -3,8 +3,28 @@
 {% load static %}
 {% load socialaccount %}
 
-{% block main %}
+{% block meta_main %}
 	<video class="masthead-video" id="landing-video" autoplay loop controls preload="auto">
 		<source src="{% static 'landing.mp4' %}" type="video/mp4">
 	</video>
+
+    <div class="landing-slide">
+      <div><img src="{% static "img/IMG_0001.jpg" %}" /></div>
+      <div><img src="{% static "img/IMG_0002.jpg" %}" /></div>
+      <div><img src="{% static "img/IMG_0003.jpg" %}" /></div>
+      <div><img src="{% static "img/IMG_0004.jpg" %}" /></div>
+      <div><img src="{% static "img/IMG_0005.jpg" %}" /></div>
+    </div>
+
+	<script type="text/javascript">
+	if ($(window).width() < 768) {
+	  $(".landing-slide").slick({
+	    // dots: true,
+	    speed: 1000,
+	    infinite: true,
+	    autoplay: true,
+	    autoplaySpeed: 1000,
+	  });
+	}
+	</script>	
 {% endblock %}

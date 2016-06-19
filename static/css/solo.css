@@ -120,16 +120,7 @@
 }
 
 .masthead-video { 
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-    background-size: cover; 
+    display: none;
 }
 
 #id_operating_days {
@@ -146,4 +137,29 @@
 .navbar-brand > img {
     width: 150px;
     margin-top: -10px;
+}
+
+.landing-slide img {
+    width: 100%;
+    height: auto;
+}
+
+@media only screen and (min-width: 768px) {
+     .masthead-video { 
+        display: block;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        background-size: cover; 
+    }   
+
+    .landing-slide {
+        display: none;
+    }
 }

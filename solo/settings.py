@@ -8,12 +8,10 @@ PROJECT_ROOT = BASE_DIR = os.path.dirname(PROJECT_APP_PATH)
 
 
 # STRIPE_KEYS = {
-#     'API_KEY': 'sk_test_1AFSPD5Dg8RihyPPtylWiSsR',
-#     'PUBLIC_KEY': 'pk_test_Q4RGBzPFhWbMP2daCqMg6Rj7',
+#     'API_KEY': 'sk_test_kVgBK2oy3Wt3T4aopjSoRijY',
+#     'PUBLIC_KEY': 'pk_test_QpLDZlsOY6ns6RzAbg4FKIUX',
 #     'CLIENT_ID': 'ca_8Qcy5FPjST3HuFl7xXjisiodyjKE5d8V',
 # }
-
-
 
 STRIPE_KEYS = {
 	'API_KEY': 'sk_test_QqlkG4EYvRku2zvzrZRksmwJ',
@@ -168,11 +166,11 @@ SOCIALACCOUNT_AUTO_SIGNUP = True
 
 AUTH_USER_MODEL = 'seller.Seller'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'info@getfreshbaked.com'
-EMAIL_HOST_PASSWORD = 'getfreshbakedtoday'
+EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
+EMAIL_HOST_USER = 'AKIAJQWFUMH5MCIHX52Q' #'ses-smtp-user.20160616-182855'
+EMAIL_HOST_PASSWORD = 'AlETX02PSbQI8a46g7RL/cN7lbzF9sBHbOTag+TUOxxv'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'info@getfreshbaked.com'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
