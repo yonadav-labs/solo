@@ -76,8 +76,8 @@ class OrderForm(forms.Form):
 	permit_number = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}))
 	quantity = forms.FloatField(widget=forms.NumberInput(attrs={'required': True, 'class': 'form-control'}), label="Quantity of Units")
 	buyer_name = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}), label="Buyer Name")
-	#buyer_phone = forms.CharField(widget=forms.TextInput(attrs={'required':True, 'class': 'form-control'}), label="Buyer Phone Number:")
-	buyer_phone = forms.RegexField(regex=r'^\+?1?\d{9,15}$', widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}), error_messages = {'invalid': "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."}, label="Buyer Phone Number")
+	buyer_phone = forms.CharField(widget=forms.TextInput(attrs={'required':True, 'class': 'form-control'}), label="Buyer Phone Number:")
+	# buyer_phone = forms.RegexField(regex=r'^\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})$', widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}), error_messages = {'invalid': "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."}, label="Buyer Phone Number")
 
 	def is_valid(self):
 		# run the parent validation first

@@ -34,7 +34,7 @@
 
   $('#customButton').on('click', function(e) {
     var form = $("#order_form");
-    form.validate();
+    form.validate({rules: { buyer_phone: {phone_solo: true}}});
 
     // Open Checkout with further options:
     if (form.valid()) {
