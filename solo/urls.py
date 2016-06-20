@@ -2,6 +2,10 @@ from django.conf.urls import url, patterns, include
 from django.contrib.gis import admin
 from seller import views
 
+
+# handler404 = views.handler404
+# handler500 = views.handler500
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),

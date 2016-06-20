@@ -5,7 +5,7 @@
 # have to be manually restarted because changes will not be noticed
 # immediately.
 
-DEBUG = True
+DEBUG = False
 
 # Make these unique, and don't share it with anybody.
 SECRET_KEY = "6@!6yreauz&k4)(4(((jq@17w@_mcr9bzu49%7%=vuze_!3f8!"
@@ -25,7 +25,7 @@ DATABASES = {
 ###################
 
 # Domains for public site
-ALLOWED_HOSTS = ["www.getfreshbaked.com"] 
+ALLOWED_HOSTS = ["www.getfreshbaked.com", "localhost"] 
 # These settings are used by the default fabfile.py provided.
 # Check fabfile.py for defaults.
 
