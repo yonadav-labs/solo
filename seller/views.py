@@ -2,6 +2,7 @@ from urllib2 import URLError
 from datetime import datetime
 import requests
 import stripe
+import pytz
 
 from django.contrib.gis import geos
 from django.contrib.gis import measure
@@ -14,6 +15,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.forms.models import model_to_dict
 from django.conf import settings
 from django.core.mail import send_mail
+from django.utils import timezone
 
 from geopy.geocoders import GoogleV3, Nominatim
 from geopy.exc import GeocoderQueryError
@@ -24,14 +26,22 @@ from allauth.socialaccount.models import *
 
 def get_sellers(location):
 	'''
+	get open and shortest delivery hour
 	get sellers cover the current location and  return then in distance order
 	'''
-	# get open and shortest delivery hour
-	now = datetime.now()
-	weekday = now.isoweekday()
-	# filter workday and time
-	sellers = Seller.objects.filter(operating_days__id=weekday, open_hour__lte=now.time(), close_hour__gte=now.time())
-	sellers_id = [seller.id for seller in sellers]
+	utc_now = timezone.now()
+
+	# filter workday and time in local time
+	sellers_id = []
+	for seller in Seller.objects.all():
+		if not seller.time_zone:
+			continue
+		local_timezone = pytz.timezone(seller.time_zone)
+		local_time = utc_now.astimezone(local_timezone)
+		weekday = local_time.isoweekday()
+
+		if seller.operating_days.filter(id=weekday) and local_time.time() > seller.open_hour and local_time.time() < seller.close_hour:
+			sellers_id.append(seller.id)
 
 	current_point = geos.fromstr("POINT(%s)" % location)
 	dis_sellers = Seller.gis.distance(current_point)
@@ -73,13 +83,18 @@ def buy(request):
 		location1 = '%s,%s' % (lnglat[1], lnglat[0])
 		map_rendered = request.POST['map_rendered']
 	else:
+		print datetime.now(), '@@@ start'
 		ip = get_client_ip(request) 
-		# ip = '142.33.135.231' # this is the test location on dev
+		if settings.DEBUG:
+			ip = '142.33.135.231' # this is the test location on dev
+		print datetime.now(), '--- get ip'
 		lat, lon = get_client_location_with_ip(ip)
 		location1 = '%f, %f' % (lat, lon)
 		location2 = '%f %f' % (lon, lat)    # geopy location
+		print datetime.now(), '--- get location'
 		sellers = get_sellers(location2)
 		map_rendered = None
+		print datetime.now(), '@@@ end'
 
 	return render(request, 'buy.html', {
 		'sellers': sellers, 
@@ -180,6 +195,7 @@ def login(request):
 	return render(request, 'login.html')
 
 def about(request):
+	# return render(request, 'about.html', {'timezones': pytz.common_timezones})    
 	return render(request, 'about.html')    
 
 # login required for creating new seller account

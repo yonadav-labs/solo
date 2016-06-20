@@ -64,7 +64,7 @@
         iconUrl: '{% static "img/PIN.png" %}',
         iconSize:     [50, 45], // size of the icon
         iconAnchor:   [13, 35], // point of the icon which will correspond to marker's location
-        popupAnchor:  [0, -24] // point from which the popup should open relative to the iconAnchor
+        popupAnchor:  [0, -24]  // point from which the popup should open relative to the iconAnchor
     });
 
     var marker = L.marker([{{ location1 }}], {icon: currentIcon}).addTo(mymap).bindPopup('You Are Here!')
@@ -91,13 +91,8 @@
     }
 
     mymap.on('click', onMapClick);
-	
-	
 	// scroll fix: source: http://jonwallsten.com/2015/02/22/how-to-avoid-scroll-leakage-scrolling-a-fixed-menu-on-touch-devices/
 	
-
-	
 </script> 
- 
 
 {% endblock %}

@@ -46,7 +46,7 @@ class Seller(AbstractUser):
 	permit_exp = normal_models.DateField(blank=True, null=True)
 	estimated_delivery = normal_models.IntegerField(choices=Estimated_Order_to_Delivery, default=1)
 	operating_days = normal_models.ManyToManyField(WeekDay, related_name='operating_days')
-
+	time_zone = normal_models.CharField(max_length=50, blank=True, null=True)
 	objects = UserManager()
 	gis = models.GeoManager()
 
@@ -59,6 +59,7 @@ class Seller(AbstractUser):
 		geocoder = GoogleV3()
 		try:
 			_, latlon = geocoder.geocode(address)
+			self.time_zone = geocoder.timezone(latlon).zone
 		except (URLError, GeocoderQueryError, ValueError, TypeError):
 			latlon = ['0', '0']
 		finally:
@@ -66,7 +67,6 @@ class Seller(AbstractUser):
 			self.location = geos.fromstr(point)
 
 		super(Seller, self).save()        
-
 		
 
 class Sale(normal_models.Model):

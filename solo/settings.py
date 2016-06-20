@@ -25,8 +25,8 @@ STRIPE_KEYS = {
 
 #STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
-STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
 
 MEDIA_URL = STATIC_URL + "/media/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))

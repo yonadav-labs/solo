@@ -6,6 +6,7 @@
 # immediately.
 
 DEBUG = False
+# DEBUG = True
 
 # Make these unique, and don't share it with anybody.
 SECRET_KEY = "6@!6yreauz&k4)(4(((jq@17w@_mcr9bzu49%7%=vuze_!3f8!"
@@ -14,7 +15,7 @@ NEVERCACHE_KEY = "-&outap0_#5%035lkznw1rd5okape@jnup2!b*ezpu$g%v(#dv"
 DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": "solo2",
+        "NAME": "solo",
         "USER": "postgres",
         "PASSWORD": "pbn6h9E",
     }
@@ -25,7 +26,7 @@ DATABASES = {
 ###################
 
 # Domains for public site
-ALLOWED_HOSTS = ["www.getfreshbaked.com", "localhost"] 
+ALLOWED_HOSTS = ["www.getfreshbaked.com", "getfreshbaked.com", "localhost"] 
 # These settings are used by the default fabfile.py provided.
 # Check fabfile.py for defaults.
 
