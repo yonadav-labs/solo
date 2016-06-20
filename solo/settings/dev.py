@@ -1,1 +1,0 @@
-from solo.settings.common import *
