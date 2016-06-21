@@ -62,6 +62,9 @@ $(function(){
 			var minutes2 = ui.values[1] - (hours2 * 60);
 			
 			$('#id_close_hour').val(hours2 + ':' + minutes2);
+			if (hours2 == 24 && minutes2 == 0)
+				$('#id_close_hour').val('23:59');
+			
 			if (hours2.length == 1) hours2 = '0' + hours2;
 			if (minutes2.length == 1) minutes2 = '0' + minutes2;
 			if (minutes2 == 0) minutes2 = '00';
