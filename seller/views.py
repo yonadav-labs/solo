@@ -147,7 +147,7 @@ def get_tax(address, price):
 		res = requests.get(url=url, headers=header)
 		res_json = res.json()
 		tax = float(res_json.get('totalRate', 0.0))
-		tax = int(price * (100+tax) / 100)
+		tax = int(price * tax / 100) 
 	return tax
 
 def charge(request):
