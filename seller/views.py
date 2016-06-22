@@ -160,8 +160,8 @@ def charge(request):
 		stripe.api_key = settings.STRIPE_KEYS['API_KEY']
 		stripe_account_id = SocialAccount.objects.get(user__id=seller.id, provider='stripe').uid
 	
-		# tax = get_tax(form.cleaned_data['address'], price_in_cents)	
-		tax = 0
+		tax = get_tax(form.cleaned_data['address'], price_in_cents)	
+		# tax = 0
 		charge = stripe.Charge.create(
 			amount=price_in_cents+tax,
 			currency="usd",
