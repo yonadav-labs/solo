@@ -34,7 +34,7 @@ def get_sellers(location):
 	# filter workday and time in local time
 	sellers_id = []
 	for seller in Seller.objects.all():
-		if not seller.time_zone:
+		if not (seller.time_zone and seller.is_active):
 			continue
 		local_timezone = pytz.timezone(seller.time_zone)
 		local_time = utc_now.astimezone(local_timezone)
