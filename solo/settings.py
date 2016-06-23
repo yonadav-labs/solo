@@ -13,10 +13,12 @@ STRIPE_KEYS = {
 	'CLIENT_ID': 'ca_8IFnisGC3UegfN3ZnNqRxGSRB2DIzMb1',
 }
 
-
-
-
-
+# For dev
+# STRIPE_KEYS = {
+# 	'API_KEY': 'sk_test_QqlkG4EYvRku2zvzrZRksmwJ',
+# 	'PUBLIC_KEY': 'pk_test_egZpQehcB86xWgcr0n1eZluM',
+# 	'CLIENT_ID': 'ca_8IFn5chY6QPiJ4ayx9roSbAqrIA5tZgx',
+# }
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
