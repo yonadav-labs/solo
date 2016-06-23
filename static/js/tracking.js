@@ -4,4 +4,6 @@
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-79744594-1', 'auto');
+  ga('require', 'displayfeatures');
+  ga('require', 'linkid');
   ga('send', 'pageview');
