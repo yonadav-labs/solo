@@ -13,7 +13,6 @@
     <form method="post">
         {% csrf_token %}
         <input id="id_address" name="address" value="{{ location2 }}" type="hidden">
-        <input name="map_rendered" value="1" type="hidden">
     </form>
 
     {% if sellers %}			
@@ -47,11 +46,18 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript">
-    var customer_location = '{{ location1 }}';    
-</script>
 <script src="/static/js/leaflet.js"></script>
 <script>
+    {% if map_initial %}
+        navigator.geolocation.getCurrentPosition(function(position) {
+            $('#id_address').val(position.coords.longitude+' '+position.coords.latitude);
+            window.document.forms[0].submit();    
+        }, function(error) {
+            alert('Error occurred. Error code: ' + error.code);
+        });
+    {% endif %}
+
+    var customer_location = '{{ location1 }}';        
     var mymap = L.map('mapid').setView([{{ location1 }}], 11);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ2V0ZnJlc2hiYWtlZCIsImEiOiJjaXBzbjdoZGUwM3oxZnZtMmltazJ0eHU4In0.B9Vu_0d7ZJlCXfwP5V_s5A', {
@@ -77,22 +83,17 @@
 
     function onMapClick(e) {
         $('#id_address').val(e.latlng.lng+' '+e.latlng.lat);
-        customer_location = e.latlng.lat+','+e.latlng.lng; 
-        // remove current marker
+        customer_location.lat = e.latlng.lat;
+        customer_location.lon = e.latlng.lon;
+
+        // update current marker
         mymap.removeLayer(marker); 
-    	// set the location of the marker
-        marker = L.marker(e.latlng, {icon: currentIcon}).addTo(mymap).openPopup() //.bindPopup(pos).openPopup();
-    		.setLatLng(e.latlng);
+        marker = L.marker(e.latlng, {icon: currentIcon}).addTo(mymap).openPopup().setLatLng(e.latlng);
     	
     	// execute on load of new clicked location
 		window.document.forms[0].submit();    
-
-        // $('#map_wrapper').hide();
     }
 
     mymap.on('click', onMapClick);
-	// scroll fix: source: http://jonwallsten.com/2015/02/22/how-to-avoid-scroll-leakage-scrolling-a-fixed-menu-on-touch-devices/
-	
 </script> 
-
 {% endblock %}

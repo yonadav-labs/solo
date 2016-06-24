@@ -78,30 +78,15 @@ def home(request):
 def buy(request):    
 	if request.POST:
 		location2 = request.POST['address']
-		sellers = get_sellers(location2)
 		lnglat = location2.split(' ')
 		location1 = '%s,%s' % (lnglat[1], lnglat[0])
-		map_rendered = request.POST['map_rendered']
-	else:
-		print datetime.now(), '@@@ start'
-		ip = get_client_ip(request) 
-		if settings.DEBUG:
-			ip = '142.33.135.231' # this is the test location on dev
-		print datetime.now(), '--- get ip'
-		lat, lon = get_client_location_with_ip(ip)
-		location1 = '%f, %f' % (lat, lon)
-		location2 = '%f %f' % (lon, lat)    # geopy location
-		print datetime.now(), '--- get location'
 		sellers = get_sellers(location2)
-		map_rendered = None
-		print datetime.now(), '@@@ end'
-
-	return render(request, 'buy.html', {
-		'sellers': sellers, 
-		'location1': location1, 
-		'location2': location2,
-		'map_rendered': map_rendered
-	})
+		return render(request, 'buy.html', { 
+			'sellers': sellers,
+			'location1': location1,
+			'location2': location2 })
+	else:
+		return render(request, 'buy.html', { 'map_initial': True })
 
 @csrf_exempt
 def start_order(request):
