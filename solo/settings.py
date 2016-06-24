@@ -7,18 +7,18 @@ PROJECT_APP = os.path.basename(PROJECT_APP_PATH)
 PROJECT_ROOT = BASE_DIR = os.path.dirname(PROJECT_APP_PATH)
 
 
-STRIPE_KEYS = {
-	'API_KEY': 'sk_live_0MKUXgCdCSMYf1dDhBZI4BOJ',
-	'PUBLIC_KEY': 'pk_live_Cs5ppryF0Sg6wteG4y7Kri88',
-	'CLIENT_ID': 'ca_8IFnisGC3UegfN3ZnNqRxGSRB2DIzMb1',
-}
+# STRIPE_KEYS = {
+# 	'API_KEY': 'sk_live_0MKUXgCdCSMYf1dDhBZI4BOJ',
+# 	'PUBLIC_KEY': 'pk_live_Cs5ppryF0Sg6wteG4y7Kri88',
+# 	'CLIENT_ID': 'ca_8IFnisGC3UegfN3ZnNqRxGSRB2DIzMb1',
+# }
 
 # For dev
-# STRIPE_KEYS = {
-# 	'API_KEY': 'sk_test_QqlkG4EYvRku2zvzrZRksmwJ',
-# 	'PUBLIC_KEY': 'pk_test_egZpQehcB86xWgcr0n1eZluM',
-# 	'CLIENT_ID': 'ca_8IFn5chY6QPiJ4ayx9roSbAqrIA5tZgx',
-# }
+STRIPE_KEYS = {
+	'API_KEY': 'sk_test_QqlkG4EYvRku2zvzrZRksmwJ',
+	'PUBLIC_KEY': 'pk_test_egZpQehcB86xWgcr0n1eZluM',
+	'CLIENT_ID': 'ca_8IFn5chY6QPiJ4ayx9roSbAqrIA5tZgx',
+}
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
