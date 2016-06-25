@@ -51,6 +51,7 @@
     {% if map_initial %}
         navigator.geolocation.getCurrentPosition(function(position) {
             $('#id_address').val(position.coords.longitude+' '+position.coords.latitude);
+            console.log(position.coords.longitude+' '+position.coords.latitude);
             window.document.forms[0].submit();    
         }, function(error) {
             alert('Error occurred. Error code: ' + error.code);
