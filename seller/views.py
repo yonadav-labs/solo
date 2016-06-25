@@ -16,6 +16,7 @@ from django.forms.models import model_to_dict
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 
 from geopy.geocoders import GoogleV3, Nominatim
 from geopy.exc import GeocoderQueryError
@@ -75,6 +76,7 @@ def get_client_location_with_ip(ip):
 def home(request):
 	return render(request, 'landing.html')
 
+@csrf_exempt
 def buy(request):    
 	if request.POST:
 		location2 = request.POST['address']
