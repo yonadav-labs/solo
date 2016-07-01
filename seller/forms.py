@@ -65,8 +65,8 @@ class SellerForm(forms.ModelForm):
 		
 class OrderForm(forms.Form):
 	first_name = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Name')
-	email = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Email')
-	phone = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Phone')
+	# email = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Email')
+	# phone = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Seller Phone')
 	distance = forms.CharField(widget=forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}), label='Distance Away')
 	address = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class': 'form-control'}), label='Customer Location')
 	estimated_delivery = forms.CharField(widget=forms.Select(choices=Estimated_Order_to_Delivery,attrs={'readonly': True, 'class': 'form-control', 'disabled': 'disabled'}), label='Estimated Delivery Time')
