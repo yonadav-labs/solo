@@ -18,7 +18,7 @@ class SellerForm(forms.ModelForm):
 				attrs={'readonly': True, 'class': 'form-control'}
 			),
 			'address': forms.TextInput(
-				attrs={'required': True, 'class': 'form-control'}
+				attrs={'required': True, 'class': 'form-control', 'placeholder': 'address, city, state, zip'}
 			),
 			'radius': forms.TextInput(
 				attrs={'class': 'form-control'}
