@@ -141,8 +141,8 @@ def get_tax(address, price):
 def charge(request):
 	form = OrderForm(request.POST)
 	if form.is_valid():
-		seller_email = form.cleaned_data['email']
-		seller = Seller.objects.get(email=seller_email)
+		first_name = form.cleaned_data['first_name']
+		seller = Seller.objects.get(first_name=first_name)
 		price_in_cents = int(int(seller.unit_price * 100) * float(form.cleaned_data['quantity']))
 		card = request.POST.get('stripeToken')
 		stripe.api_key = settings.STRIPE_KEYS['API_KEY']
