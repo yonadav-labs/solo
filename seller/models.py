@@ -78,5 +78,5 @@ class Sale(normal_models.Model):
 	buyer_phone = normal_models.CharField(max_length=20)
 
 	def __unicode__(self):
-		return self.seller.name + ':' + self.buyer_name
+		return self.seller.username + ':' + self.buyer_name
 	

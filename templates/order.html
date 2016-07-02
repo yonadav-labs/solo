@@ -42,7 +42,7 @@
         var quantity = parseFloat($('#id_quantity').val());
         var unit_price = parseFloat($('#id_unit_price').val().substring(1));
         var amount = quantity * unit_price * 100;
-        console.log(amount);
+        // console.log(amount);
 
         handler.open({
           name: "Seller: {{form.first_name.value}}",
