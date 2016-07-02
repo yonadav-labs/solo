@@ -4,7 +4,7 @@
 {% block main %}
 
 <div class="container">
-<link rel="stylesheet" href="/static/css/leaflet.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
 <div class="row">
     <div class="col-md-8" id="map_wrapper">
         <h4>Select your location on the Map:</h4>
@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="/static/js/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
 <script>
     {% if map_initial %}
         navigator.geolocation.getCurrentPosition(function(position) {
