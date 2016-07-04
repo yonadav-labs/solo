@@ -3,3 +3,4 @@ stripe==1.32.2
 psycopg2
 geopy
 django-allauth
+twilio

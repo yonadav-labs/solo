@@ -20,6 +20,9 @@ STRIPE_KEYS = {
 # 	'CLIENT_ID': 'ca_8IFn5chY6QPiJ4ayx9roSbAqrIA5tZgx',
 # }
 
+# twilio credentials
+TWILIO_ACCOUNT_SID = "ACb311a23eddf63e73d3812c07921b540c" 
+TWILIO_AUTH_TOKEN = "6bf4a906976eb9f31d683dd336be4784" 
 
 #STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'

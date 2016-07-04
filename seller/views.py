@@ -17,6 +17,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from twilio.rest import TwilioRestClient 
 
 from geopy.geocoders import GoogleV3, Nominatim
 from geopy.exc import GeocoderQueryError
@@ -172,6 +173,7 @@ def charge(request):
 		email_subject = 'Order Confirmation'
 		email_body = "Dear %s.\n\nYou've got an order from Customer: %s \nAddress: %s\nPhone Number: %s\nQuantity: %.2f\nPlease confirm the order and fulfill it.\n\nThank you." % (seller.first_name, sale.buyer_name, sale.delivery_address, sale.buyer_phone, sale.quantity)
 		send_mail(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [seller.email], fail_silently=False)
+		send_SMS(seller.phone)
 		
 		return render(request, 'order_success.html', {'seller': seller})
 	return render(request, 'order.html', {
@@ -222,7 +224,19 @@ def seller(request):
 
 	return render(request, 'seller.html', {'form': form, 'open_hour': open_hour, 'close_hour': close_hour })
 
-	
+
+def send_SMS(phone_number):
+	'''
+	send SMS to the seller to confirm the order using twilio
+	'''
+	client = TwilioRestClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN) 
+	 
+	client.messages.create(
+		to='+1'+phone_number, 
+		from_="+18582473889", 
+		body="You have a new order from GetFreshBaked. Please check your email and confirm with the buyer.",  
+	)	
+
 # def handler404(request):
 # 	response = render_to_response('404.html', {}, context_instance=RequestContext(request))
 # 	response.status_code = 404
