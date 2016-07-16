@@ -156,7 +156,7 @@ def charge(request):
 			currency="usd",
 			source=card,
 			destination=stripe_account_id,
-			application_fee = int(price_in_cents * 0.30),
+			application_fee = int(price_in_cents * seller.app_fee),
 			description='Thank you for your purchase!'
 		)
 		
@@ -227,7 +227,7 @@ def seller(request):
 
 def send_SMS(phone_number):
 	'''
-	send SMS to the seller to confirm the order using twilio
+	send SMS to the seller to confirm the order using twillio
 	'''
 	client = TwilioRestClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN) 
 	 

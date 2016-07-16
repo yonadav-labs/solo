@@ -144,8 +144,16 @@
     height: auto;
 }
 
+.bottom_footer {        
+    margin-top: 100%;
+}
+
 @media only screen and (min-width: 768px) {
-     .masthead-video { 
+    .bottom_footer {        
+        margin-top: 34%;
+    }
+
+    .masthead-video { 
         display: block;
         position: fixed;
         top: 50%;
