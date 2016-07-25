@@ -1,18 +1,39 @@
 {% extends "base.html" %}
 
 {% load static %}
-{% block main %}
+{% block body %}
  
-<div class="site-wrapper">
-  <div class="site-wrapper-inner">
-    <div class="cover-container">
-      <div class="inner cover">
-  			<p> Thanks for your purchase. Your order will be fulfilled by {{seller.first_name}}. </p>
-  			<p> You can contact them at {{ seller.phone }}.</p>
+ <header class="page-header center-center large image-background image-32 no-padding">
+	<div class="mask opacity-5">
+
+		<div class="container v-align-center">
+			<div class="row">
+				<div class="col-md-12 text-light">
+					<div class="nav-style-1 header-transparent-header-space"></div>
+						<div class="row">
+							<div class="container v-align-center col-md-12 text-light" id="map_wrapper">
+								<h2>Thanks for your purchase
+									<span>your order will be fulfilled by {{seller.first_name}}</span>
+								</h2>
+							</div>
+						</div>
+				</div>
 			</div>
-    </div>
-  </div>
+		</div>
+	</div>
+</header>	
+
+<div class="box no-pb white">
+	<section>
+		<h3 class="mt-small">Help</h3>
+		<p>
+			If you have any questions about your order please contact {{seller.first_name}} at {{seller.phone}}. 
+		</p>
+		<a href="/about" class="btn small primary">How it works</a>
+	</section>
 </div>
+ 
+ 
 
 <style>.ig-b- { display: inline-block; }
 .ig-b- img { visibility: hidden; }

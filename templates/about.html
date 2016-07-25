@@ -3,23 +3,101 @@
 {% load static %}
 {% load tz %}
 
-{% block main %}
-<div class="inner cover">
-    <p class="lead">Welcome. We are a network of mostly Cottage Food Businesses who prepare and deliver fresh baked goods locally.</p> 
-	<p class="lead"><b><a href="/buy">Buy</a></b> or <b><a href="/login">Sell</a></b> something delicious today.</p>
-</div>	
-<!-- want to add follow buttons here for Instagram, Twitter, FB -->
-<div class="container" style="text-align:center">
-	<style>.ig-b- { display: inline-block; }
-	.ig-b- img { visibility: hidden; }
-	.ig-b-:hover { background-position: 0 -60px; } .ig-b-:active { background-position: 0 -120px; }
-	.ig-b-v-24 { width: 137px; height: 24px; background: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24.png) no-repeat 0 0; }
-	@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-	.ig-b-v-24 { background-image: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24@2x.png); background-size: 160px 178px; } }</style>
-	<a href="https://www.instagram.com/getfreshbaked/?ref=badge" class="ig-b- ig-b-v-24"><img src="//badges.instagram.com/static/images/ig-badge-view-24.png" alt="Instagram" /></a>
-</div>
+{% block body %}
+			<header class="page-header center-center x-large image-background image-32 no-padding dark-color">
+				<div class="mask opacity-5">
 
-<div class="bottom_footer">
-	<a href='/static/TERMS OF SERVICE.pdf' >Terms of Service and Privacy</a>
-</div>
+					<div class="container v-align-center">
+						<div class="row">
+							<div class="col-md-12 text-light">
+								<div class="nav-style-1 header-transparent-header-space"></div>
+								<h1 class="x-large block text-light" data-nekoanim="fadeInUp" data-nekodelay="200">It's so easy,
+									<span class="block pt-small" data-nekoanim="fadeIn" data-nekodelay="800">and so delicious</span>
+								</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+			<!-- services -->
+			<section class="parallax center-center primary text-center darker-color" data-type="background center-center" data-speed="10">
+
+				<div class="opacity-2">
+					<div class="container pt-large pb-large" data-nekoanim="fadeIn" data-nekodelay="50">
+
+						<div class="row">
+							<div class="col-md-12 heading no-mb">
+								<h2>How it works<span>We make it easy</span></h2>
+							</div>
+						</div>
+
+						<div class="row">
+
+							<div class="col-md-4 col-sm-6">
+								<article class="box-icon mt">
+									<a href="/buy">
+										<i class="icon-glyph-44 large"></i>
+										<h3>Find nearby bakers</h3>
+										<p>
+											See bakers who are open for business and deliver in your area by selecting your location on the map. 
+										</p>
+									</a>
+								</article>
+							</div>
+
+							<div class="col-md-4 col-sm-6">
+								<article class="box-icon">
+									<a href="/buy">
+										<i class="icon-glyph-80 x-large"></i>
+										<h3>Order something delicious</h3>
+										<p>
+											Place an order with an artisan baker for fresh warm cookies, or other treats.
+										</p>
+									</a>
+								</article>
+							</div>
+
+							<div class="col-md-4 col-sm-6">
+								<article class="box-icon mt">
+									<a href="/buy">
+										<i class="icon-glyph-194 large"></i>
+										<h3>Get it delivered and enjoy.</h3>
+										<p>
+											Delivered in as soon as 1 hour, directly to you, from the person who made it. Enjoy.
+										</p>
+									</a>
+								</article>
+							</div>
+
+
+						</div>
+					</div>
+
+				</div>
+			</section>
+			<!-- / services -->
+
+			<!-- call to action -->
+			<section class="pb-large pt-large">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 heading" data-nekoanim="fadeInUp" data-nekodelay="50">
+							<h2>Artisan Bakers<span>We love you</span></h2>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+
+								<div class="col-sm-12 text-center" data-nekoanim="fadeInUp" data-nekodelay="50">
+									<h2 class="h1 large">We love to advertise your products to local customers</h2>
+									<a href="/seller" class="btn large primary mt-small" data-nekoanim="fadeInUp" data-nekodelay="50">Sign up as a seller</a>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 {% endblock %}

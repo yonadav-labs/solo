@@ -1,0 +1,131 @@
+/*------------------------------------------------------------------
+[Table of contents]
+
+1. Full page vertical slider
+2. Bloc images
+3. Coming soon
+4. Miscelaneous
+-------------------------------------------------------------------*/
+
+
+
+/*
+|--------------------------------------------------------------------------
+| 1. Full page vertical slider
+|--------------------------------------------------------------------------
+*/	
+#fullpage .section {
+	background-size: cover;
+}
+
+#section0 {
+	background-image: url('../images/slider/vertical/v-1.jpg'); 
+}
+#section1 {
+	background-image: url('../images/slider/vertical/v-2.jpg'); 
+}
+#section2 {
+	background-image: url('../images/slider/vertical/v-3.jpg'); 
+}
+#section3 {
+	background-image: url('../images/slider/vertical/v-4.jpg'); 
+}
+/*
+
+/*
+|--------------------------------------------------------------------------
+| 2. Bloc images
+|--------------------------------------------------------------------------
+*/	
+
+.news-1 {
+	background-image:url(../images/news/news-3.jpg);
+}
+
+.news-2 {
+	background-image:url(../images/news/news-2.jpg);
+}
+
+.news-3 {
+	background-image:url(../images/news/news-1.jpg);
+	background-position: top right;
+}
+
+.news-4 {
+	background-image:url(../images/news/news-4.jpg);
+}
+
+.city {
+	background-image:url(../images/theme-pics/city.jpg);
+	background-position: center center;
+}
+
+
+.team-1 {
+	background-image:url(../images/team/team-corporate-1.jpg);
+}
+
+.team-2 {
+	background-image:url(../images/team/team-corporate-2.jpg);
+}
+
+.team-3 {
+	background-image:url(../images/team/team-corporate-3.jpg);
+	background-position: top right;
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| 3. Coming soon
+|--------------------------------------------------------------------------
+*/	
+
+
+#coming-soon-3 label {
+	display:none;
+}
+
+#coming-soon-3 .form-control {
+	color:white;
+	font-weight: bold;
+}
+
+.logo-coming-soon {
+width:200px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| 4. Miscelaneous
+|--------------------------------------------------------------------------
+*/	
+
+/** single portfolio **/
+#back-to-portfolio i:before{
+	margin-right: 17px;
+}
+
+/* fixing footer on mobile */
+
+@media (max-width: 767px) {
+.footer-widget.text-center,
+.footer-widget.text-right{
+	text-align: left; 
+}
+}
+
+ol.demo-list {
+	padding:0;
+	margin:0;
+	list-style-position: inside;
+}
+ol.demo-list li {
+	padding:10px 0;
+}
+
+
+
+
+

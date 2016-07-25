@@ -1,103 +1,169 @@
+<!-- removed extend base as I developed the single landing page on the base.html. I wil need to move this to another sheet-->
 {% extends 'base.html' %}
-{% load staticfiles %} 
+{% load static %} 
 
-{% block main %}
+{% block body %}
 
-<div class="container">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
-<div class="row">
-    <div class="col-md-8" id="map_wrapper">
-        <h4>Select your location on the Map:</h4>
-        <div id="mapid" style="height: 200px; margin-bottom: 30px;"></div>
-    </div>
-    <form method="post">
-        {% csrf_token %}
-        <input id="id_address" name="address" value="{{ location2 }}" type="hidden">
-    </form>
 
-    {% if sellers %}			
-        <div class="col-md-7" id="seller_wrapper">
-            <h3>Select a nearby Seller:</h3>
-            {% for seller in sellers %}	
-                <a href="javascript:void(0);" onclick="start_order({{ seller.id }}, {{ seller.distance.mi|floatformat:2 }});">
-				<div class="media">
-					<div class="media-left">
-						<img src="/static/media/{{ seller.picture }}" class="item-thumbnail" >
-					</div>
-					<div class="media-body">
-						<b class="media-heading">{{ seller.first_name }}</b>
-                        <p>Distance: {{ seller.distance.mi|floatformat:2 }} Miles away.</p>
-						<p> {{seller.item}} {{seller.description}} </p>
-					</div>    
-                </div>
-                </a>
-            {% endfor %}
-        </div>
-        <div class="col-md-7">
-            <div id="order_div"></div>
-        </div>
-    {% else %}
-		<div class="col-md-7">
-            <h4>We need Sellers in your area:</h4> 
-        	<b><u><a href = "/login">Begin Selling Now</a></u></b>
+
+<header class="page-header center-center x-large image-background image-32 no-padding">
+	<div class="mask opacity-5">
+		<div class="container v-align-center">
+			<div class="row">
+				<div class="col-md-12 text-light">
+					<div class="nav-style-1 header-transparent-header-space"></div>
+				
+				<!-- help -->
+					<a href="#help" class="btn primary small"><i class="icon-glyph-211"></i><span>Help</span></a>
+
+					
+						<!-- map below -->					
+						<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+						<div class="row">
+ 
+							<div class="container v-align-center col-md-12 text-light" id="map_wrapper">
+								<h2>Select your location on the map
+									<span>then select a seller</span>
+								</h2>
+								<div id="mapid" style="height: 200px; margin-bottom: 30px;"></div>
+							</div>
+							<form method="post">
+								{% csrf_token %}
+								<input id="id_address" name="address" value="{{ location2 }}" type="hidden">
+							</form>
+								{% if sellers %}
+						<!-- if sellers -->
+								<div class="center v-align-center col-md--12 text-light">
+									<!-- added fade css -->
+									<div class="cta-box-btn" data-nekoanim="fadeInUp" data-nekodelay="200">
+										<h2>Select a product below:</h2> 
+									</div>
+								</div>
+						<!-- if sellers then end header here -->
+
+												</div>
+										</div>
+									</div>
+								</div>
+							</header>	
+						<!-- if sellers then begin list of sellers here -->	
+							<div class="pt-medium pb-medium light-color">
+
+									<div class="container">
+										<div class="row">
+											<div class="col-md-8 col-md-offset-2">
+											{% for seller in sellers %}																		
+												<section class="slice">
+															<div class="ln-doc-example">
+																<div class="feature-box media-left">
+																<h3>Distance: {{seller.distance.mi|floatformat:2}} miles away</h3>
+																	<img src="/static/media/{{ seller.picture }}" class="avatar x-large" alt="image">
+																	<div class="feature-box-content">
+																		<h2>{{seller.item}}<span>by: {{ seller.first_name }}</span></h2>
+																		<p>
+																			{{seller.description}}}}
+																		</p>
+																		<a href="javascript:void(0);" onclick="start_order({{ seller.id }}, {{ seller.distance.mi|floatformat:2 }});" class="btn small primary">Order Now</a>
+																	</div>
+																</div>
+															</div>
+												</section>
+												{% endfor %}
+												
+											</div>
+
+										</div><!-- row -->
+									</div><!-- container -->
+							</div>								
+						<!-- if no sellers the show this message -->
+								{% else %}
+							 
+									<div class="center v-align-center col-md--12 text-light">
+										<!-- added fade css -->
+										<div class="cta-box-btn" data-nekoanim="fadeInUp" data-nekodelay="200">
+											<h2>We want sellers in your area:</h2> 
+											<!-- added class for button css -->
+											<b><u><a class="btn primary medium ml-xsmall mb-xsmall" href = "/login">Begin Selling Now</a></u></b>
+										</div>
+									</div>		
+								{% endif %}
+							</div>						
+<!-- if no sellers then end header here -->
+				</div>
+			</div>
 		</div>
-	{% endif %}
-</div>
+
+		</div>
+</header>
+
+							<div class="box no-pb white" id="help">
+								<section>
+									<h3 class="mt-small">Help</h3>
+									<p>
+										For accuracy and security, please ensure location services are turned on for your browser and that your browser accepts cookies from this website before loading this page. Your location is used to show you sellers nearby, and cookies are used to ensure a secure check-out process.
+									</p>
+									<a href="/about" class="btn small primary">How it works</a>
+								</section>
+							</div>
+					
+		
 {% endblock %}
+<!-- end blog formating -->
 
+<!-- javascript for map -->
 {% block javascript %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
-<script>
-    {% if map_initial %}
-        navigator.geolocation.getCurrentPosition(function(position) {
-            $('#id_address').val(position.coords.longitude+' '+position.coords.latitude);
-            // console.log(position.coords.longitude+' '+position.coords.latitude);
-            window.document.forms[0].submit();    
-        }, function(error) {
-            if (error.code == 1)
-                alert('Please allow Safari to access your location:\n Go to Settings->Privacy->Location Services and toggling Safari to On.');
-            else
-                alert('Error occurred. Error code: ' + error.code);
-        });
-    {% endif %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+	<script>
+		{% if map_initial %}
+			navigator.geolocation.getCurrentPosition(function(position) {
+				$('#id_address').val(position.coords.longitude+' '+position.coords.latitude);
+				// console.log(position.coords.longitude+' '+position.coords.latitude);
+				window.document.forms[0].submit();    
+			}, function(error) {
+				if (error.code == 1)
+					alert('Please allow Safari to access your location:\n Go to Settings->Privacy->Location Services and toggling Safari to On.');
+				else
+					alert('Error occurred. Error code: ' + error.code);
+			});
+		{% endif %}
 
-    var customer_location = '{{ location1 }}';        
-    var mymap = L.map('mapid').setView([{{ location1 }}], 11);
+		var customer_location = '{{ location1 }}';        
+		var mymap = L.map('mapid').setView([{{ location1 }}], 11);
 
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ2V0ZnJlc2hiYWtlZCIsImEiOiJjaXBzbjdoZGUwM3oxZnZtMmltazJ0eHU4In0.B9Vu_0d7ZJlCXfwP5V_s5A', {
-        maxZoom: 20,
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-        id: 'mapbox.streets'
-    }).addTo(mymap);
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ2V0ZnJlc2hiYWtlZCIsImEiOiJjaXBzbjdoZGUwM3oxZnZtMmltazJ0eHU4In0.B9Vu_0d7ZJlCXfwP5V_s5A', {
+			maxZoom: 20,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+			id: 'mapbox.streets'
+		}).addTo(mymap);
 
-    var currentIcon = L.icon({
-        iconUrl: '{% static "img/PIN.png" %}',
-        iconSize:     [50, 45], // size of the icon
-        iconAnchor:   [13, 35], // point of the icon which will correspond to marker's location
-        popupAnchor:  [0, -24]  // point from which the popup should open relative to the iconAnchor
-    });
+		var currentIcon = L.icon({
+			iconUrl: '{% static "img/PIN.png" %}',
+			iconSize:     [50, 45], // size of the icon
+			iconAnchor:   [13, 35], // point of the icon which will correspond to marker's location
+			popupAnchor:  [0, -24]  // point from which the popup should open relative to the iconAnchor
+		});
 
-    var marker = L.marker([{{ location1 }}], {icon: currentIcon}).addTo(mymap).bindPopup('You Are Here!')
-      .openPopup(); 
-      
-    // add markers for sellers
-    {% for seller in sellers %}
-        L.marker([{{ seller.location.y }}, {{ seller.location.x }}]).addTo(mymap).bindPopup('{{ seller.first_name }}');        
-    {% endfor %}
+		var marker = L.marker([{{ location1 }}], {icon: currentIcon}).addTo(mymap).bindPopup('You Are Here!')
+		  .openPopup(); 
+		  
+		// add markers for sellers
+		{% for seller in sellers %}
+			L.marker([{{ seller.location.y }}, {{ seller.location.x }}]).addTo(mymap).bindPopup('{{ seller.first_name }}');        
+		{% endfor %}
 
-    function onMapClick(e) {
-        $('#id_address').val(e.latlng.lng+' '+e.latlng.lat);
-        customer_location.lat = e.latlng.lat;
-        customer_location.lon = e.latlng.lon;
+		function onMapClick(e) {
+			$('#id_address').val(e.latlng.lng+' '+e.latlng.lat);
+			customer_location.lat = e.latlng.lat;
+			customer_location.lon = e.latlng.lon;
 
-        // update current marker
-        mymap.removeLayer(marker); 
-        marker = L.marker(e.latlng, {icon: currentIcon}).addTo(mymap).openPopup().setLatLng(e.latlng);
-    	
-    	// execute on load of new clicked location
-		window.document.forms[0].submit();    
-    }
+			// update current marker
+			mymap.removeLayer(marker); 
+			marker = L.marker(e.latlng, {icon: currentIcon}).addTo(mymap).openPopup().setLatLng(e.latlng);
+			
+			// execute on load of new clicked location
+			window.document.forms[0].submit();    
+		}
 
-    mymap.on('click', onMapClick);
-</script> 
+		mymap.on('click', onMapClick);
+	</script> 
 {% endblock %}

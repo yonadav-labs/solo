@@ -3,24 +3,100 @@
 {% load static %}
 {% load socialaccount %}
 
-{% block main %}
-<div class="row">
-  <div class="col-md-12">
-	{% if user and not user.is_anonymous %}
-	  <h2>Hello, {{ user.get_full_name }}. </h2>
-	  <p>We're happy to be working with you.</p>						  
-	{% else %}
-		<div style="text-align:center">
-			  <div class="inner cover">
-				<p class="lead">If you're a Cottage Food Business, we want you to join us.</p> 
-				<p class="lead">We introduce local customers to you, provide a secure payment platform, and you focus on serving delicious treats.</p>
+{% block body %}
+		<!-- content -->
+	
+			<!-- intro -->
+			<header class="page-header center-center x-large image-background image-32 no-padding dark-color">
+				<div class="mask opacity-5">
+
+					<div class="container v-align-center">
+						<div class="row">
+							<div class="col-md-12 text-light">
+								<div class="nav-style-1 header-transparent-header-space"></div>
+							{% if user and not user.is_anonymous %}
+							  <h1 class="h1">Hello, {{ user.get_full_name }}. </h1>
+							  <h1 class="large text-light block">We're happy to be working with you.</h1>						  
+							{% else %}
+								<h1 class="h1">Artisan Bakers</h1> 
+								<h1 class="large text-light block">We want to advertise you</h1>
+										
+								<div style="padding-top: 20px;">
+									<a id='connect_stripe' href="{% provider_login_url 'stripe' %}" class="disabled"><img src="/static/img/blue-on-light.png"></a>
+								</div>
+									<div style="padding-top: 20px;"><h3 class="medium text-light block"><input type="checkbox" onclick="agree_terms(this);"></input> Agree to <a href='/static/TERMS OF SERVICE.pdf'>Terms of Service and Privacy</a></h3></div>
+								</div>
+							{% endif %}
+							</div>
+						</div>
+					</div>
+			</header>
+
+			<section>
 				
-		<div style="padding-top: 20px;">
-		  	<a id='connect_stripe' href="{% provider_login_url 'stripe' %}" class="disabled"><img src="/static/img/blue-on-light.png"></a>
-		</div>
-			<div style="padding-top: 20px;"><input type="checkbox" onclick="agree_terms(this);"> Agree to <a href='/static/TERMS OF SERVICE.pdf'>Terms of Service and Privacy</a></div>
-		</div>
-	{% endif %} 
-  </div>
-</div>	
+				<div class="container">
+
+					<div class="row">
+
+					<div class="col-sm-6 col-md-6 pt-medium">
+							<div class="clearfix">
+								<div class="feature-box media-left" data-nekoanim="fadeInLeft" data-nekodelay="100">
+									<i class="icon-glyph-347 large"></i>
+									<div class="feature-box-content">
+										<h3>Connect with Strip</h3>
+										<p>
+											For security reasons, we let Stripe handle the payment processing. A fee of 10-30 percent is charged for transactions through our website. 
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="clearfix">
+								<div class="feature-box media-left" data-nekoanim="fadeInLeft" data-nekodelay="300">
+									<i class="icon-glyph-29 large"></i>
+									<div class="feature-box-content">
+										<h3>Enter your information</h3>
+										<p>
+											Set your product information: minimum order quantity, deliver radius, fulfilment time, hours of operation.
+										</p>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+
+						<div class="col-sm-6 col-md-6 pt-medium">
+							<div class="clearfix">
+								<div class="feature-box media-left" data-nekoanim="fadeInRight" data-nekodelay="600">
+									<i class="icon-glyph-334 large"></i>
+									<div class="feature-box-content">
+										<h3>Get notified immediately</h3>
+										<p>
+											We'll send you a text message and an email. Just confirm with the customer and deliver their order.
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="clearfix">
+								<div class="feature-box media-left" data-nekoanim="fadeInRight" data-nekodelay="800">
+									<i class="icon-glyph-52 large"></i>
+									<div class="feature-box-content">
+										<h3>Share your passion</h3>
+										<p>
+											Deliver each order with a smile and a message about how awesome you are. We hope they order from you again.
+										</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+			</section>
+
+
+<!-- end process -->
+
+
 {% endblock %}

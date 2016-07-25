@@ -2,11 +2,27 @@
 
 {% load static %}
 
-{% block main %}
-<div class="row">
-<div class="col-md-8">
-<h3>Welcome</h3>
-<p>We're happy to be working with you. Please complete the below to finalize your application. </p>         
+{% block body %}
+
+	<main id="content">
+
+			<!-- intro -->
+			<header class="page-header center-center x-large image-background image-32 no-padding dark-color">
+				<div class="mask opacity-5">
+
+					<div class="container v-align-center">
+						<div class="row">
+							<div class="col-md-12 text-light">
+								<div class="nav-style-1 header-transparent-header-space"></div>
+								<!--<h1 class="x-large block text-light" data-nekoanim="fadeInUp" data-nekodelay="200">Hello, we're Spoons -->
+								<h1 class="x-large block text-light" data-nekoanim="fadeInUp" data-nekodelay="200">We're happy to be working with you,
+									<span class="block pt-small" data-nekoanim="fadeIn" data-nekodelay="800">Please complete the form below to begin selling</span>
+								</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
 
 {{ form.errors }}
 <form method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
