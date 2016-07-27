@@ -24,9 +24,14 @@ STRIPE_KEYS = {
 TWILIO_ACCOUNT_SID = "ACb311a23eddf63e73d3812c07921b540c" 
 TWILIO_AUTH_TOKEN = "6bf4a906976eb9f31d683dd336be4784" 
 
-#STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+STATIC_ROOT = os.path.join(PROJECT_APP, "static")
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+STATICFILES_DIRS = ["static",]
+
+##STATIC_ROOT = os.path.join(BASE_DIR, "static")
+#STATIC_URL = '/static/'
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
 # STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
 
 MEDIA_URL = STATIC_URL + "/media/"

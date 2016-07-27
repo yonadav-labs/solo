@@ -18,12 +18,14 @@ function agree_terms(obj)
 }
 
 $(function(){
-	$( "#id_permit_exp" ).datepicker({
-		dateFormat: "yy-mm-dd",
-		defaultDate: +30,
-		minDate: 1
-	});
-
+	if ($( "#id_permit_exp" ) > 0) {
+		$( "#id_permit_exp" ).datepicker({
+			dateFormat: "yy-mm-dd",
+			defaultDate: +30,
+			minDate: 1
+		});
+	}
+	
 	if (typeof open_hour != 'undefined') {
 	$("#slider-range").slider({
 		range: true,
