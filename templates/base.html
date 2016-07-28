@@ -1,5 +1,6 @@
 <!doctype html>
 {% load staticfiles %}
+{% load socialaccount %} <!-- add for login and logout in nav bar -->
 
 <html lang="en">
   <head>
@@ -88,9 +89,9 @@
 								<a href="/about">About</a>				
 							</li>						
 						  {% if user.is_authenticated %}
-							<li><a href="/accounts/logout/">Logout <span class="glyphicon glyphicon-user"></span></a></li>
+							<li><a href="/accounts/logout/">Logout <span class="glyphicon glyphicon-user"></span></a></li> <!-- need to get icon-gylph-#  from neko library and replace here -->
 						  {% else %}
-							<li><a href="/login/"><span class="glyphicon glyphicon-user"></span> Login</a></li>
+							<li><a href="/login/"><span class="glyphicon glyphicon-user"></span> Login</a></li> <!-- need to get icon-gylph-#  from neko library and replace here -->
 						  {% endif %}							
 					</div>
 
@@ -100,10 +101,11 @@
 
 		</header>
 		<!-- / header -->
-{% block body %}
+<!-- add main tag here so that it is correct in order_success -->
+{% block main %}
 {% endblock %}
 
-{% block main %}
+{% block body %}
 {% endblock %}
 
 {% block meta_main %}
@@ -181,12 +183,7 @@
 	<!-- neko custom script -->	
 	<script src="/static/spoon/files/js/custom.js"></script>
 	
-
-	
-	
-	
-	
-  </body>
+  </body> <!-- is this correc tto add here or should this be before <footer></footer> elements? -->
   {% block javascript %}
   {% endblock %}
 </html>
