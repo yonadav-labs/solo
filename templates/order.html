@@ -1,8 +1,7 @@
 {% extends request.is_ajax|yesno:"ajax.html,base.html" %}
-{% block body %}
 
 
-
+{% block main %}
 <header class="page-header center-center large image-background image-32 no-padding">
 	<div class="mask opacity-5">
 
@@ -10,8 +9,6 @@
 			<div class="row">
 				<div class="col-md-12 text-light">
 					<div class="nav-style-1 header-transparent-header-space"></div>
-				<!-- help -->
-					<!--<a href="#help" class="btn primary small"><i class="icon-glyph-211"></i><span>Help</span></a>-->
 						<div class="row">
 							<div class="container v-align-center col-md-12 text-light" id="map_wrapper">
 								<h2>Complete the order form below
@@ -24,40 +21,53 @@
 		</div>
 	</div>
 </header>	
+{% endblock %}
 
-<section>																											
-<div class="box pt-medium pb-medium light-color">
-	<div class="container">
-		<div class="row">
-			<h3>Order Information</h3>
-{{ form.errors }}
-		<form method="post" class="form-horizontal" role="form" action="/charge/" id="order_form">
-			{% csrf_token %}
-			<input type="hidden" name="stripeToken" id="stripe_token">
-		  {% for elem in form %}
-		  <div class="form-group">
-			<label class="control-label col-sm-3" for="id_{{elem.name}}">{{elem.label}}:</label>
-			<div class="col-sm-6">
-				{{ elem }} 
-			</div>
-		  </div>
-		  {% endfor %}
-		  <div class="form-group">
-			<div class="col-sm-offset-2 col-sm-5">
-			  <button id="customButton" class="btn large primary">Pay with Card</button>      
-			</div>
-		  </div>		
-		</form>	
-	</div>
-	</div>
-</div>	
-</section>
-																																							
+{% block body %}
+<section>
+
+								<div class="container">
+									<div class="row">
+										<div class="col-md-8" id="seller_wrapper">
+														<h3>Order Information</h3>						
+											<section class="slice">
+												<div class="ln-doc">
+													<div class="feature-box media-left">
+
+
+													{{ form.errors }}
+															<form method="post" class="form-horizontal" role="form" action="/charge/" id="order_form">
+																{% csrf_token %}
+																<input type="hidden" name="stripeToken" id="stripe_token">
+															  {% for elem in form %}
+															  <div class="form-group">
+																<label class="control-label col-sm-3" for="id_{{elem.name}}">{{elem.label}}:</label>
+																<div class="col-sm-6">
+																	{{ elem }} 
+																</div>
+															  </div>
+															  {% endfor %}
+															  <div class="form-group">
+																<div class="col-sm-offset-2 col-sm-5">
+																  <button id="customButton" class="btn large primary">Pay with Card</button>      
+																</div>
+															  </div>		
+															</form>	
+													</div>
+												</div>	
+											</section>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+		
 	<div class="box no-pb white" id="help">
 		<section>
 			<h3 class="mt-small">Help</h3>
 			<p>
-				Enter your order information in the white boxes and ensure your web browser accepts cookies from this website. Your order information will be sent to the seller for fulfillment. 
+				Enter your order information in the white boxes and ensure your web browser accepts cookies from this website. Your order information will be sent to the seller for fulfilment. 
 			</p>
 			<a href="/about" class="btn small primary">How it works</a>
 		</section>
