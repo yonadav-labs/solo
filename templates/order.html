@@ -72,6 +72,8 @@
 {% endblock %}					
 		
 {% block javascript %}
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/js/jquery.additional.validate.js"></script>
 <script>
   $('#id_quantity').attr('min', {{form.min_order_amount.value}});
 

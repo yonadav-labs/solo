@@ -172,10 +172,6 @@
 			$.post('/start_order/', 'id='+seller_id+'&location='+customer_location+'&distance='+seller_distance)
 			.success(function(data){
 			  $('#order_div').html(data);
-			  console.log('data');
-			  console.log(data);
-			  console.log('data');
-
 			});
 			$('#map_wrapper').hide();
 			$('#seller_wrapper').hide();
