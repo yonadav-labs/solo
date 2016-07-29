@@ -31,6 +31,7 @@
 						<div class="ln-doc">
 							<div class="feature-box media-left">
 							{{ form.errors }}
+							{{ form }}
 							<form method="post" class="form-horizontal" role="form" action="/charge/" id="order_form">
 								{% csrf_token %}
 								<input type="hidden" name="stripeToken" id="stripe_token">
@@ -56,6 +57,8 @@
 		</div>
 	</section>
 		
+{% endblock %}		
+{% block meta_main %}		
 	<div class="box no-pb white" id="help">
 		<section>
 			<h3 class="mt-small">Help</h3>
