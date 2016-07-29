@@ -28,11 +28,8 @@ TWILIO_AUTH_TOKEN = "6bf4a906976eb9f31d683dd336be4784"
 STATIC_ROOT = os.path.join(PROJECT_APP, "static")
 STATIC_URL = '/static/'
 STATICFILES_DIRS = ["static",]
-
-##STATIC_ROOT = os.path.join(BASE_DIR, "static")
-#STATIC_URL = '/static/'
 #STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
-# STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
+#STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
 
 MEDIA_URL = STATIC_URL + "/media/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))

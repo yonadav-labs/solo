@@ -5,7 +5,7 @@
 # have to be manually restarted because changes will not be noticed
 # immediately.
 
-DEBUG = False
+DEBUG = True
 # DEBUG = True
 
 # Make these unique, and don't share it with anybody.
