@@ -97,13 +97,13 @@ def start_order(request):
 	location = request.POST.get('location')
 	distance = request.POST.get('distance')
 	geolocator = Nominatim()
-	address = geolocator.reverse(location)
+	# address = geolocator.reverse(location)
 
 	seller = Seller.objects.get(id=id)
 	initial_data = model_to_dict(seller)
-	# initial_data['address'] = address or u''
+	initial_data['address'] = 'address'
 	initial_data['unit_price'] = '$'+str(initial_data['unit_price']) 
-	initial_data['address'] = location
+	# initial_data['address'] = location
 	initial_data['distance'] = distance+' miles away'
 
 	form = OrderForm(initial=initial_data)
