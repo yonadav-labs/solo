@@ -36,7 +36,14 @@
 								<input type="hidden" name="stripeToken" id="stripe_token">
 								{{ form.first_name }}
 								{{ form.distance }}
-								{{ form.address }}
+								
+								{{ form.estimated_delivery }}
+								{{ form.unit_price }}
+								{{ form.min_order_amount }}
+								{{ form.permit_number }}
+								{{ form.quantity }}
+								{{ form.buyer_name }}
+								{{ form.buyer_phone }}
 								
 
 							  {% for elem in form %}
