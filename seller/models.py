@@ -52,7 +52,7 @@ class Seller(AbstractUser):
 	gis = models.GeoManager()
 
 	def __unicode__(self):
-		return unicode(self.username) or u''
+		return self.username
 
 	def save(self, **kwargs):
 		min_order = self.unit_price * self.min_order_amount * 100
