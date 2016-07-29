@@ -108,7 +108,6 @@ def start_order(request):
 
 	form = OrderForm(initial=initial_data)
 
-	print '######', form
 	return render(request, 'order.html', {
 		'form': form, 
 		'key': settings.STRIPE_KEYS['PUBLIC_KEY']
