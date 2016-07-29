@@ -103,7 +103,7 @@ def start_order(request):
 	initial_data = model_to_dict(seller)
 	initial_data['address'] = address or u''
 	initial_data['unit_price'] = '$'+str(initial_data['unit_price']) 
-	# initial_data['address'] = location
+	initial_data['address'] = location
 	initial_data['distance'] = distance+' miles away'
 
 	form = OrderForm(initial=initial_data)
