@@ -81,7 +81,6 @@ def home(request):
 def buy(request):    
 	if request.POST:
 		location2 = request.POST['address']
-		# print '@@@@@', location2
 		lnglat = location2.split(' ')
 		location1 = '%s,%s' % (lnglat[1], lnglat[0])
 		sellers = get_sellers(location2)
