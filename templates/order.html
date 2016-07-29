@@ -35,6 +35,10 @@
 								{% csrf_token %}
 								<input type="hidden" name="stripeToken" id="stripe_token">
 								{{ form.first_name }}
+								{{ form.distance }}
+								{{ form.address }}
+								{{ form.estimated_delivery }}
+								
 
 							  {% for elem in form %}
 							  <div class="form-group">
