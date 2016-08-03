@@ -4,15 +4,18 @@
 
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
-    <meta name="description" content='GetFreshBaked is a community of mostly neighborhood Cottage Food businesses which bake and deliver cookies, brownies and other treats.' >
-    <title>GetFreshBaked</title> <!-- what shows up in the tabe-->
+    <meta name="description" content='Get fresh warm cookies and other baked good delivered right now! Find nearby bakers who deliver in your area.' />
+	<meta name="title" content="GetFreshBaked"/>
+	<meta name="keywords" content="Get fresh baked, getfreshbaked, homemade, baked, cookies, bake, chocolate chip cookies, get cookies now, get cookies, baked cookies, cookie recipies, sell homemade, baked goods, bakedgoods, christmas cookies"/>
+    <meta name="robots" content"index,follow"/>
+	<title>GetFreshBaked</title> <!-- what shows up in the tabe-->
 	<link rel="icon" type="image/png" href="/static/img/favicon-32x32.png" sizes="32x32" />
 	<link rel="icon" type="image/png" href="/static/img/favicon-16x16.png" sizes="16x16" />
 	
 	<!-- Mobile Specific Metas ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
  
 	<!-- CSS ================================================== -->
 
@@ -48,7 +51,7 @@
 		<header class="menu-header navbar-fixed-top" > <!-- change this to not fixed -->
 			<div class="container">
 				<nav class="navbar navbar-default" >
-					<div class="navbar-header">
+					<div class="navbar-header" itemscope itemtype="http://schema.org/Thing">
 						<!-- hamburger button -->
 						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 							<span class="sr-only">Toggle navigation</span>
@@ -59,26 +62,26 @@
 						<!-- / hamburger button -->
 
 						<!-- Logo -->
-						<a class="navbar-brand" href="/">
-							<img src="/static/img/logo3.png" alt="GetFreshBaked" class="main-logo">
-							<img src="/static/img/logo3.png" alt="GetFreshBaked" class="main-logo-light">
+						<a class="navbar-brand" href="/" itemprop="url">
+							<img src="/static/img/logo3.png" alt="GetFreshBaked" class="main-logo" itemprop="image">
+							<img src="/static/img/logo3.png" alt="GetFreshBaked" class="main-logo-light" itemprop="image">
 							
 						</a>
 						<!-- /Logo -->
 					</div>
-					<div class="collapse navbar-collapse">
+					<div class="collapse navbar-collapse" itemscope itemtype="http://schema.org/WebPage">
 						<!-- Main navigation -->
 						<ul class="nav navbar-nav navbar-right">
 			
-							<li class="neko-mega-menu-trigger"> 
-								<a href="/buy">Buy</a>				
+							<li class="neko-mega-menu-trigger" > 
+								<a href="/buy" itemprop="relatedLink">Buy</a>				
 							</li>						
 							<li class="neko-mega-menu-trigger">
-								<a href="/seller">Sell</a>				
+								<a href="/seller" itemprop="relatedLink">Sell</a>				
 							</li>
 						
 							<li class="neko-mega-menu-trigger">
-								<a href="/about">About</a>				
+								<a href="/about" itemprop="relatedLink">About</a>				
 							</li>						
 						  {% if user.is_authenticated %}
 							<li><a href="/accounts/logout/">Logout <span class="glyphicon glyphicon-user"></span></a></li> <!-- need to get icon-gylph-#  from neko library and replace here -->
@@ -106,19 +109,19 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-2  col-sm-6">
-						<div class="footer-widget">
+						<div class="footer-widget" itemscope itemtype="http://schema.org/Thing">
 
-							<h3>Keep in touch</h3>
+							<h3 itemprop="description" >Keep in touch</h3>
 							<ul class="social-icons main-color circle social-hover">
 
 								<li>
-									<a href="https://www.instagram.com/getfreshbaked"" class="linkedin" title="instagram"><i class="icon-glyph-316"></i></a>
+									<a href="https://www.instagram.com/getfreshbaked" class="linkedin" title="instagram" itemprop="url"><i class="icon-glyph-316"></i></a>
 								</li>
 								<li>
-									<a href="https://www.facebook.com/getfreshbaked" class="facebook" title="facebook"><i class="icon-glyph-320"></i></a>
+									<a href="https://www.facebook.com/getfreshbaked" class="facebook" title="facebook" itemprop="url"><i class="icon-glyph-320"></i></a>
 								</li>
 								<li>
-									<a href="https://www.twitter.com/getfreshbaked" class="twitter" title="twitter"><i class="icon-glyph-339"></i></a>
+									<a href="https://www.twitter.com/getfreshbaked" class="twitter" title="twitter" itemprop="url"><i class="icon-glyph-339"></i></a>
 								</li>
 								</ul> 
 
@@ -126,10 +129,10 @@
 					</div>
 
 					<div class="col-sm-4  col-sm-6">
-						<div class="footer-widget">
+						<div class="footer-widget" itemscope itemtype="http://schema.org/Thing">
 							<h3>About Us</h3>
 							<ul class="list-unstyled list-icon arrow border">
-								<li class="no-pt">We're building a network of artisan bakers, to deliver high quality baked goods on-demand. <a href="/about">Read more</a></li>
+								<li class="no-pt" itemprop="description">We're building a network of artisan bakers, to deliver high quality baked goods on-demand. <a href="/about" itemprop="url">Read more</a></li>
 
 							</ul>
 						</div>
@@ -139,8 +142,8 @@
 				<div id="footer-rights">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-12">
-								<p><a href='/static/TERMS OF SERVICE.pdf' target="blank">GetFreshBaked, Inc.</a> / Terms of Service.</p>
+							<div class="col-md-12" itemscope itemtype="http://schema.org/Thing">
+								<p itemprop="description"><a href='/static/TERMS OF SERVICE.pdf' target="blank" itemprop="url">GetFreshBaked, Inc.</a> / Terms of Service.</p>
 							</div>
 
 						</div>
