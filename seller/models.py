@@ -14,11 +14,14 @@ from urllib2 import URLError
 
 Estimated_Order_to_Delivery = (
 	(1, '1 hour'),
+	(6, '2 hours'),
+	(7, '3 hours'),
+	(8, '4 hours'),
 	(2, 'Same Day'),
 	(3, 'Next Day'),
 	(4, 'Please Contact'),
 	(5, 'Unknown')
-	)
+)
 
 
 class WeekDay(normal_models.Model):
