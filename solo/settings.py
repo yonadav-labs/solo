@@ -14,11 +14,11 @@ STRIPE_KEYS = {
 }
 
 # For dev
-STRIPE_KEYS = {
-	'API_KEY': 'sk_test_QqlkG4EYvRku2zvzrZRksmwJ',
-	'PUBLIC_KEY': 'pk_test_egZpQehcB86xWgcr0n1eZluM',
-	'CLIENT_ID': 'ca_8IFn5chY6QPiJ4ayx9roSbAqrIA5tZgx',
-}
+# STRIPE_KEYS = {
+# 	'API_KEY': 'sk_test_QqlkG4EYvRku2zvzrZRksmwJ',
+# 	'PUBLIC_KEY': 'pk_test_egZpQehcB86xWgcr0n1eZluM',
+# 	'CLIENT_ID': 'ca_8IFn5chY6QPiJ4ayx9roSbAqrIA5tZgx',
+# }
 
 # twilio credentials
 TWILIO_ACCOUNT_SID = "ACb311a23eddf63e73d3812c07921b540c" 
