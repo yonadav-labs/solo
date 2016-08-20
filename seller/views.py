@@ -203,14 +203,14 @@ def charge(request):
 	
 		# tax = get_tax(form.cleaned_data['address'], price_in_cents)	
 		tax = 0
-		# charge = stripe.Charge.create(
-		# 	amount=price_in_cents+tax,
-		# 	currency="usd",
-		# 	source=card,
-		# 	destination=stripe_account_id,
-		# 	application_fee = int(price_in_cents * seller.app_fee),
-		# 	description='Thank you for your purchase!'
-		# )
+		charge = stripe.Charge.create(
+			amount=price_in_cents+tax,
+			currency="usd",
+			source=card,
+			destination=stripe_account_id,
+			application_fee = int(price_in_cents * seller.app_fee),
+			description='Thank you for your purchase!'
+		)
 		
 		sale = Sale()
 		sale.seller = seller
@@ -218,7 +218,7 @@ def charge(request):
 		sale.delivery_address = form.cleaned_data['address']
 		sale.buyer_name = form.cleaned_data['buyer_name']
 		sale.buyer_phone = form.cleaned_data['buyer_phone']
-		sale.charge_id = 'charge.id'
+		sale.charge_id = charge.id
 		sale.save()
 		
 		delivery_datetime = request.POST.get('delivery_datetime_charge')		
