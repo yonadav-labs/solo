@@ -3,7 +3,6 @@
 {% load static %} 
 
 {% block meta_main %}
-<link rel="stylesheet" type="text/css" href="/static/css/datetimepicker.css">
 
 <header class="page-header center-center x-large image-background image-32 no-padding">
 	<div class="opacity-5">
@@ -12,21 +11,21 @@
 				<div class="col-md-10 text-light">
 					<div class="custom_mapper">
 						<div class="container v-align-center col-md-12 text-light">
-							<h2>Provide your information
+							<h2>Enter Delivery Details
 								<span>then select a seller</span>
 							</h2>
 						</div>
 							
 						<form method="post">
 						  	<div class="form-group">
-								<label class="control-label col-sm-3" for="id_delivery_address">Delivery Address:</label>
+								<label class="control-label col-sm-3" for="id_delivery_address" style="color:white;">Delivery Address:</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" name="delivery_address" required="" value="{{ address }}">
 								</div>
 							</div>
 							<div class="clearfix"></div>
 							<div class="form-group">
-								<label class="control-label col-sm-3" for="id_delivery_datetime">Delivery Date & Time:</label>
+								<label class="control-label col-sm-3" for="id_delivery_datetime" style="color:white;">Delivery Date & Time:</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" name="delivery_datetime" id="id_delivery_datetime" required="" value="{{ date_time }}">
 								</div>
@@ -34,16 +33,17 @@
 							<div class="clearfix"></div>
 							<div class="form-group">
 								<div class="col-sm-offset-3 col-sm-5">
-								  	<button id="customButton" class="btn medium primary">Order Now</button>      
+								  	<button id="orderButton" class="btn medium primary">Find Bakers</button>      
 								</div>
 							</div>		
 
 							{% csrf_token %}
 						</form>
-						</div>			
+					</div>			
 						{% if sellers %}
 					<!-- if sellers -->
-								<div class="center v-align-center col-md--12 text-light">
+								<div class="clearfix"></div>
+								<div class="center v-align-center col-md--12 text-light custom_mapper">
 									<!-- added fade css -->
 									<div class="cta-box-btn" data-nekoanim="fadeInUp" data-nekodelay="200">
 										<h2>Select a product below:</h2> 
@@ -51,7 +51,6 @@
 								</div>
 						<!-- if sellers then end header here -->
 
-												</div>
 											</div>
 										</div>
 									</div>
@@ -92,14 +91,10 @@
 									<div class="center v-align-center col-md--12 text-light">
 										<!-- added fade css -->
 										<div class="cta-box-btn" data-nekoanim="fadeInUp" data-nekodelay="200">
-											<h2>We want sellers in your area:</h2> 
-											<!-- added class for button css -->
-											<b><u><a class="btn primary medium ml-xsmall mb-xsmall" href = "/login">Begin Selling Now</a></u></b>
+											<h3>There are no bakers able to deliver to that location at that time, follow us on social media to find out when new bakers join</h3> 
 										</div>
 									</div>		
 									{% endif %}
-
-									</div>						
 		<!-- if no sellers then end header here -->
 								</div>
 							</div>
