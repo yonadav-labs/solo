@@ -53,6 +53,33 @@ def get_sellers(location):
 	sellers = [seller for seller in dis_sellers if seller.distance.mi <= seller.radius]
 	return sellers
 
+def get_sellers_address(location, date_time):
+	'''
+	get open and shortest delivery hour
+	get sellers cover the current location and  return then in distance order
+	'''
+	utc_now = datetime.strptime(date_time, '%Y/%m/%d %H:%M')
+	# filter workday and time in local time
+	sellers_id = []
+	for seller in Seller.objects.all():
+		if not (seller.time_zone and seller.is_active):
+			continue
+		local_timezone = pytz.timezone(seller.time_zone)
+		utc_now = utc_now.replace(tzinfo=local_timezone)
+		local_time = utc_now.astimezone(local_timezone)
+		weekday = local_time.isoweekday()
+
+		if seller.operating_days.filter(id=weekday) and local_time.time() > seller.open_hour and local_time.time() < seller.close_hour:
+			sellers_id.append(seller.id)
+
+	current_point = geos.fromstr("POINT({} {})".format(location.longitude, location.latitude))
+	dis_sellers = Seller.gis.distance(current_point)
+	# sort by estimated delivery time    
+	dis_sellers = dis_sellers.filter(id__in=sellers_id).order_by('estimated_delivery') 
+	# filter only in radius
+	sellers = [seller for seller in dis_sellers if seller.distance.mi <= seller.radius]
+	return sellers
+
 def get_client_ip(request):
 	'''
 	get ip from the request
@@ -91,13 +118,39 @@ def buy(request):
 	else:
 		return render(request, 'buy.html', { 'map_initial': True })
 
+def real_estate(request):
+	if request.POST:
+		address = request.POST['delivery_address']
+		date_time = request.POST['delivery_datetime']
+
+		geolocator = GoogleV3()
+		location = geolocator.geocode(address)
+
+		if not location:
+			sellers = []
+		else:
+			sellers = get_sellers_address(location, date_time)
+			address = location.address
+
+		return render(request, 'real_estate.html', {
+			'initialized': True,
+			'address': address,
+			'date_time': date_time,
+			'sellers': sellers,
+		})
+	else:
+		return render(request, 'real_estate.html', {})
+
 @csrf_exempt
 def start_order(request):
 	id = request.POST.get('id')
 	location = request.POST.get('location')
 	distance = request.POST.get('distance')
-	geolocator = Nominatim()
-	address = geolocator.reverse(location)
+	address = request.POST.get('address')
+
+	if not address:
+		geolocator = Nominatim()
+		address = geolocator.reverse(location)
 
 	seller = Seller.objects.get(id=id)
 	initial_data = model_to_dict(seller)

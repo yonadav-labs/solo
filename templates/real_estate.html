@@ -1,0 +1,146 @@
+<!-- removed extend base as I developed the single landing page on the base.html. I wil need to move this to another sheet-->
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block meta_main %}
+<link rel="stylesheet" type="text/css" href="/static/css/datetimepicker.css">
+
+<header class="page-header center-center x-large image-background image-32 no-padding">
+	<div class="opacity-5">
+		<div class="container v-align-center">
+			<div class="row">
+				<div class="col-md-10 text-light">
+					<div class="custom_mapper">
+						<div class="container v-align-center col-md-12 text-light">
+							<h2>Provide your information
+								<span>then select a seller</span>
+							</h2>
+						</div>
+							
+						<form method="post">
+						  	<div class="form-group">
+								<label class="control-label col-sm-3" for="id_delivery_address">Delivery Address:</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="delivery_address" required="" value="{{ address }}">
+								</div>
+							</div>
+							<div class="clearfix"></div>
+							<div class="form-group">
+								<label class="control-label col-sm-3" for="id_delivery_datetime">Delivery Date & Time:</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="delivery_datetime" id="id_delivery_datetime" required="" value="{{ date_time }}">
+								</div>
+							</div>
+							<div class="clearfix"></div>
+							<div class="form-group">
+								<div class="col-sm-offset-3 col-sm-5">
+								  	<button id="customButton" class="btn medium primary">Order Now</button>      
+								</div>
+							</div>		
+
+							{% csrf_token %}
+						</form>
+						</div>			
+						{% if sellers %}
+					<!-- if sellers -->
+								<div class="center v-align-center col-md--12 text-light">
+									<!-- added fade css -->
+									<div class="cta-box-btn" data-nekoanim="fadeInUp" data-nekodelay="200">
+										<h2>Select a product below:</h2> 
+									</div>
+								</div>
+						<!-- if sellers then end header here -->
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</header>	
+						<!-- if sellers then begin list of sellers here -->	
+							<div class="pt-medium pb-medium light-color">
+
+								<div class="container">
+									<div class="row">
+										<div class="col-md-8 col-md-offset-2" id="seller_wrapper">
+										{% for seller in sellers %}																		
+											<section class="slice">
+												<div class="ln-doc-example">
+													<div class="feature-box media-left">
+													<h3>Distance: {{seller.distance.mi|floatformat:2}} miles away</h3>
+														<img src="/static/media/{{ seller.picture }}" class="avatar x-large" alt="image">
+														<div class="feature-box-content">
+															<h2>{{seller.item}}<span>by: {{ seller.first_name }}</span></h2>
+															<p>
+																{{seller.description}}
+															</p>
+															<a href="javascript:void(0);" onclick="start_order({{ seller.id }}, {{ seller.distance.mi|floatformat:2 }});" class="btn small primary">Order Now</a>
+														</div>
+													</div>
+												</div>
+											</section>
+										{% endfor %}												
+										</div>
+										<div class="col-md-8 col-md-offset-2" id="order_div"></div>
+									</div><!-- row -->
+								</div><!-- container -->
+							</div>								
+						<!-- if no sellers the show this message -->
+								{% else %}
+									{% if initialized %}
+							 
+									<div class="center v-align-center col-md--12 text-light">
+										<!-- added fade css -->
+										<div class="cta-box-btn" data-nekoanim="fadeInUp" data-nekodelay="200">
+											<h2>We want sellers in your area:</h2> 
+											<!-- added class for button css -->
+											<b><u><a class="btn primary medium ml-xsmall mb-xsmall" href = "/login">Begin Selling Now</a></u></b>
+										</div>
+									</div>		
+									{% endif %}
+
+									</div>						
+		<!-- if no sellers then end header here -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</header>								
+				{% endif %}
+
+	<div class="box no-pb white" id="help">
+		<section>
+			<h3 class="mt-small">Help</h3>
+			<p>
+				For accuracy and security, please ensure location services are turned on for your browser and that your browser accepts cookies from this website before loading this page. Your location is used to show you sellers nearby, and cookies are used to ensure a secure check-out process.
+			</p>
+			<a href="/about" class="btn small primary">How it works</a>
+		</section>
+	</div>
+					
+		
+{% endblock %}
+<!-- end blog formating -->
+
+<!-- javascript for map -->
+{% block javascript %}
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script src="/static/js/datetimepicker.js"></script>
+    <script type="text/javascript">
+		jQuery('#id_delivery_datetime').datetimepicker({
+			minDate:0,
+		});
+
+		function start_order(seller_id, seller_distance) 
+		{
+			$.post('/start_order/', 'id='+seller_id+'&address="{{address}}"&distance='+seller_distance)
+			.success(function(data){
+			  $('#order_div').html(data);
+			});
+			$('.custom_mapper').hide();
+			$('#seller_wrapper').hide();
+			window.scrollTo(0, 0);			
+		}		
+    </script>
+{% endblock %}
+
