@@ -4,3 +4,5 @@
 .coverage
 media
 migrations
+local_settings.py
+settings.py

@@ -203,14 +203,14 @@ def charge(request):
 	
 		# tax = get_tax(form.cleaned_data['address'], price_in_cents)	
 		tax = 0
-		charge = stripe.Charge.create(
-			amount=price_in_cents+tax,
-			currency="usd",
-			source=card,
-			destination=stripe_account_id,
-			application_fee = int(price_in_cents * seller.app_fee),
-			description='Thank you for your purchase!'
-		)
+		# charge = stripe.Charge.create(
+		# 	amount=price_in_cents+tax,
+		# 	currency="usd",
+		# 	source=card,
+		# 	destination=stripe_account_id,
+		# 	application_fee = int(price_in_cents * seller.app_fee),
+		# 	description='Thank you for your purchase!'
+		# )
 		
 		sale = Sale()
 		sale.seller = seller
@@ -218,12 +218,18 @@ def charge(request):
 		sale.delivery_address = form.cleaned_data['address']
 		sale.buyer_name = form.cleaned_data['buyer_name']
 		sale.buyer_phone = form.cleaned_data['buyer_phone']
-		sale.charge_id = charge.id
+		sale.charge_id = 'charge.id'
 		sale.save()
 		
+		delivery_datetime = request.POST.get('delivery_datetime_charge')		
 		# send email
 		email_subject = 'Order Confirmation'
-		email_body = "Dear %s.\n\nYou've got an order from Customer: %s \nAddress: %s\nPhone Number: %s\nQuantity: %.2f\nPlease confirm the order and fulfill it.\n\nThank you." % (seller.first_name, sale.buyer_name, sale.delivery_address, sale.buyer_phone, sale.quantity)
+		if delivery_datetime:
+			email_body = "Dear %s.\n\nYou've got a new pre order from Customer: %s \nAddress: %s\nPhone Number: %s\nQuantity: %.2f\nDate & Time: %s\nPlease confirm the order and fulfill it.\n\nThank you." % (seller.first_name, sale.buyer_name, sale.delivery_address, sale.buyer_phone, sale.quantity, delivery_datetime)
+		else:
+			email_body = "Dear %s.\n\nYou've got an order from Customer: %s \nAddress: %s\nPhone Number: %s\nQuantity: %.2f\nPlease confirm the order and fulfill it.\n\nThank you." % (seller.first_name, sale.buyer_name, sale.delivery_address, sale.buyer_phone, sale.quantity)
+
+		print email_body, '@@@@@@@@2'
 		send_mail(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [seller.email], fail_silently=False)
 		send_SMS(seller.phone)
 		

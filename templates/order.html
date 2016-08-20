@@ -34,7 +34,7 @@
 							<form method="post" class="form-horizontal" role="form" action="/charge/" id="order_form">
 								{% csrf_token %}
 								<input type="hidden" name="stripeToken" id="stripe_token">
-
+								<input type="hidden" id="id_delivery_datetime_charge" name="delivery_datetime_charge">
 							  {% for elem in form %}
 							  <div class="form-group">
 								<label class="control-label col-sm-3" for="id_{{elem.name}}">{{elem.label}}:</label>
@@ -95,6 +95,8 @@
         var unit_price = parseFloat($('#id_unit_price').val().substring(1));
         var amount = quantity * unit_price * 100;
         // console.log(amount);
+        if ($('#id_delivery_datetime').length > 0)
+        	$('#id_delivery_datetime_charge').val($('#id_delivery_datetime').val());
 
         handler.open({
           name: "Seller: {{form.first_name.value}}",
