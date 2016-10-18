@@ -37,13 +37,13 @@ FABRIC = {
     "VIRTUALENV_HOME":  "/home/ubuntu/do", 
     "PROJECT_NAME": "solo", 
     "GUNICORN_PORT": 8000, 
-    "REPO_URL": "https://jason5001001@bitbucket.org/cflproject2016/solo.git", 
+    "REPO_URL": "", 
     "HOSTS": ["54.67.42.100",],  # The IP address of your VPS
     "DOMAINS": ALLOWED_HOSTS,  # Edit domains in ALLOWED_HOSTS
     "REQUIREMENTS_PATH": "requirements.txt",  # Project's pip requirements
     "LOCALE": "en_US.UTF-8",  # Should end with ".UTF-8"
-    "DB_PASS": "pbn6h9E",  # Live database password
-    "ADMIN_PASS": "u83jiEVT;i?",  # Live admin user password
+    "DB_PASS": "",  # Live database password
+    "ADMIN_PASS": "",  # Live admin user password
     "SECRET_KEY": SECRET_KEY,
     "NEVERCACHE_KEY": NEVERCACHE_KEY,
 }
